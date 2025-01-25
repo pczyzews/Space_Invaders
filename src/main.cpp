@@ -2,14 +2,17 @@
 #include <SFML/Graphics.hpp>
 #include "Player.h"
 #include "Projectile.h"
+#include "Gamemanager.h"
 
 using namespace std;
 
 int main() {
-    sf::RenderWindow window(sf::VideoMode(600, 700), "Space Invaders", sf::Style::Close);
+    sf::RenderWindow window(sf::VideoMode(800, 700), "Space Invaders", sf::Style::Close);
+    window.setFramerateLimit(144);
 
-    Player test(100, 100, 100, 300);
+    Player test(64, 64, 300, 500);
     Projectile* player_bullet = nullptr;
+    GameManager manager(&test);
 
     while (window.isOpen())
     {
@@ -22,20 +25,22 @@ int main() {
             }
         }
 
-        if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right))
-        {
-            test.getRect().move(0.3, 0.0);
-            test.updatePosition(0.3, 0);
-        }
-        if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left))
-        {
-            test.getRect().move(-0.3, 0.0);
-            test.updatePosition(-0.3, 0);
-        }
+        manager.handleInput();
+
+        // if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right))
+        // {
+        //     test.getRect().move(1.0, 0.0);
+        //     test.updatePosition(1.0, 0);
+        // }
+        // if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left))
+        // {
+        //     test.getRect().move(-1.0, 0.0);
+        //     test.updatePosition(-1.0, 0);
+        // }
 
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space) && player_bullet == nullptr)
         {
-            player_bullet = new Projectile(10, 20, test.getPositionX() + 45, test.getPositionY(), true);
+            player_bullet = new Projectile(10, 20, test.getPositionX() + 27, test.getPositionY(), true);
         }
 
         if (player_bullet != nullptr)

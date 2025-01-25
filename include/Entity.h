@@ -15,8 +15,10 @@ private:
     sf::RectangleShape rect;
 
 public:
-    float getPositionX();
-    float getPositionY();
+    float getPositionX() const;
+    float getPositionY() const;
+    float getSizeX() const;
+    float getSizeY() const;
     float getSpeed();
     Entity(float sizeX, float sizeY, float positionX, float positionY);
     virtual ~Entity();

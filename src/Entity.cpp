@@ -7,8 +7,11 @@ Entity::Entity(float sizeX, float sizeY, float positionX, float positionY)
     rect.setPosition(positionX, positionY);
 }
 
-float Entity::getPositionX() { return positionX; }
-float Entity::getPositionY() { return positionY; }
+float Entity::getPositionX() const { return positionX; }
+float Entity::getPositionY() const { return positionY; }
+
+float Entity::getSizeX() const { return sizeX; }
+float Entity::getSizeY() const { return sizeY; }
 
 void Entity::setTexture(const std::string& texturePath)
 {
