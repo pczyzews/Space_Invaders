@@ -103,6 +103,7 @@ int main()
     float min_alien_position = 100;
     float max_alien_position = 660;
     bool check_army_movement_down = false;
+    float army_move_per_second = 1000;
 
     auto lastMoveTime = chrono::steady_clock::now();
 
@@ -118,7 +119,7 @@ int main()
         }
 
         auto currentTime = chrono::steady_clock::now();
-        if (chrono::duration_cast<chrono::seconds>(currentTime - lastMoveTime).count() >= 1)
+        if (chrono::duration_cast<chrono::milliseconds>(currentTime - lastMoveTime).count() >= army_move_per_second)
         {
             if ((min_alien_position <= 10 || max_alien_position >= 790) && check_army_movement_down == false)
             {
@@ -129,6 +130,10 @@ int main()
                 }
                 alien_speed = -alien_speed;
                 check_army_movement_down = true;
+                if (army_move_per_second >= 300)
+                {
+                    army_move_per_second -= 100;
+                }
             }
             else
             {
@@ -142,7 +147,7 @@ int main()
             }
 
             CalculateMaxPositions(min_alien_position, max_alien_position, aliens);
-            printf("Min: %f, Max: %f, Speed: %f\n", min_alien_position, max_alien_position, alien_speed);
+            printf("Min: %f, Max: %f, Speed: %f, Army move per second: %f\n", min_alien_position, max_alien_position, alien_speed, army_move_per_second);
             lastMoveTime = currentTime;
 
         }
