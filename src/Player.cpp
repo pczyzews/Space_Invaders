@@ -34,7 +34,7 @@ void Player::Shot() {
     double currentTime = GetTime();
 
     if (currentTime - weaponCooldown >= 0.4) {
-        projectiles.emplace_back(10.0, 20.0, getPositionX() + getSizeX()/2 - 5, getPositionY(), true);
+        projectiles.push_back(std::make_shared<Projectile>(10.0, 20.0, getPositionX() + getSizeX()/2 - 5, getPositionY(), true));
         weaponCooldown = currentTime;
         std::cout << "Current number of projectiles: " << projectiles.size() << std::endl;
     }
@@ -42,10 +42,10 @@ void Player::Shot() {
 
 void Player::updateProjectiles() {
     for (auto it = projectiles.begin(); it != projectiles.end(); ) {
-        it->getRect().move(0, -5);
-        it->updatePosition(0, -5);
+        (*it)->getRect().move(0, -5);
+        (*it)->updatePosition(0, -5);
 
-        if (it->getPositionY() < 0) {
+        if ((*it)->getPositionY() < 0) {
             it = projectiles.erase(it);
             std::cout << "Projectile removed" << std::endl;
         } else {
@@ -61,7 +61,7 @@ void Player::update() {
 void Player::draw(sf::RenderWindow& window) {
     animation.draw(window);
     for (auto& projectile : projectiles) {
-        projectile.draw(window);
+        projectile->draw(window);
     }
 }
 
