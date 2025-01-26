@@ -27,17 +27,6 @@ int main() {
 
         manager.handleInput();
 
-        // if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right))
-        // {
-        //     test.getRect().move(1.0, 0.0);
-        //     test.updatePosition(1.0, 0);
-        // }
-        // if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left))
-        // {
-        //     test.getRect().move(-1.0, 0.0);
-        //     test.updatePosition(-1.0, 0);
-        // }
-
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space) && player_bullet == nullptr)
         {
             player_bullet = new Projectile(10, 20, test.getPositionX() + 27, test.getPositionY(), true);
