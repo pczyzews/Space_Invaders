@@ -1,18 +1,26 @@
 #ifndef PLAYER_H
 #define PLAYER_H
+
 #include "Entity.h"
 #include "Projectile.h"
+#include "Animation.h"
+#include <vector>
 
-class Player : public Entity
-{
+class Player : public Entity {
 private:
-    Projectile* player_bullet = nullptr;
+    Animation animation;
+    double weaponCooldown = 0.0;
+    std::vector<Projectile> projectiles;
 public:
-    Player(float sizeX, float sizeY, float positionX, float positionY);
+    Player(float sizeX, float sizeY, float positionX, float positionY, const sf::Texture& texture, int frameWidth, int frameHeight, int frameCount, float frameDuration);
     ~Player();
     void MoveLeft();
     void MoveRight();
     void Shot();
+    void update();
+    void draw(sf::RenderWindow& window);
+    void updateProjectiles();
+
 
 };
 

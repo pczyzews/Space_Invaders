@@ -30,8 +30,14 @@ int main() {
     sf::RenderWindow window(sf::VideoMode(800, 700), "Space Invaders", sf::Style::Close);
     window.setFramerateLimit(144);
 
-    Player test(64, 64, 300, 500);
-    Projectile* player_bullet = nullptr;
+    sf::Texture playerTexture;
+    playerTexture.loadFromFile("../textures/2player.png");
+
+    if (playerTexture.loadFromFile("../textures/2player.png")) {
+        std::cerr << "Udało się załadować teksturę!" << std::endl;
+    }
+
+    Player test(64, 64, 368, 600, playerTexture, 16, 16,2 ,0.5);
     GameManager manager(&test);
     vector<Alien*> aliens;
     for (int j = 0; j < 4; j++)
@@ -96,34 +102,15 @@ int main() {
             }
 
         manager.handleInput();
-
-        if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space) && player_bullet == nullptr)
-        {
-            player_bullet = new Projectile(10, 20, test.getPositionX() + 27, test.getPositionY(), true);
-        }
-
-        if (player_bullet != nullptr)
-        {
-            player_bullet->getRect().move(0, -5);
-            player_bullet->updatePosition(0, -5);
-
-            if (player_bullet->getPositionY() + player_bullet->getRect().getSize().y < 0)
-            {
-                delete player_bullet;
-                player_bullet = nullptr;
-            }
-        }
-
         window.clear();
-        window.draw(test.getRect());
+        //window.draw(test.getRect());
+            test.update();
+            test.draw(window);
             for (Alien* alien : aliens)
                 {
                     window.draw(alien->getRect());
                 }
-        if (player_bullet != nullptr)
-        {
-            window.draw(player_bullet->getRect());
-        }
+
         window.display();
         }
         for (Alien* alien : aliens)

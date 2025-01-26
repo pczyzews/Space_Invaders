@@ -16,11 +16,12 @@ void GameManager::handleInput() {
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right))
         {
             player->MoveRight();
-        }else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left))
+        }
+        if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left))
         {
             player->MoveLeft();
         }
-        else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space))
+        if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space))
         {
             player->Shot();
         }
