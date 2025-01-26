@@ -1,4 +1,5 @@
 #include "Projectile.h"
+#include <iostream>
 
 Projectile::Projectile(float sizeX, float sizeY, float positionX, float positionY, bool direction) : Entity(sizeX, sizeY, positionX, positionY), direction(direction)
 {
@@ -7,3 +8,7 @@ Projectile::Projectile(float sizeX, float sizeY, float positionX, float position
     }
 }
 Projectile::~Projectile(){}
+
+void Projectile::draw(sf::RenderWindow& window) {
+    window.draw(getRect());
+}

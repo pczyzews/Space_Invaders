@@ -30,7 +30,9 @@ set(SOURCE_FILES
         src/Gamemanager.cpp
         src/Player.cpp
         src/Projectile.cpp
-        src/main.cpp)
+        src/main.cpp
+        src/animation.cpp
+        include/animation.h)
 
 add_executable(Project ${SOURCE_FILES})
 

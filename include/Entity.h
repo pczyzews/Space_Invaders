@@ -3,6 +3,7 @@
 #include <SFML/Graphics/RectangleShape.hpp>
 #include <SFML/Graphics/Texture.hpp>
 #include <string>
+#include <SFML/Graphics/RenderWindow.hpp>
 
 class Entity
 {

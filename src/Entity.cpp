@@ -1,4 +1,5 @@
 #include "Entity.h"
+#include <iostream>
 
 Entity::Entity(float sizeX, float sizeY, float positionX, float positionY)
     : sizeX(sizeX), sizeY(sizeY), positionX(positionX), positionY(positionY)
@@ -16,6 +17,9 @@ float Entity::getSizeY() const { return sizeY; }
 void Entity::setTexture(const std::string& texturePath)
 {
     texture.loadFromFile(texturePath);
+    if (!texture.loadFromFile(texturePath)) {
+        std::cerr << "Error loading texture from: " << texturePath << std::endl;
+    }
     rect.setTexture(&texture);
 }
 void Entity::updatePosition(float offsetX, float offsetY)
