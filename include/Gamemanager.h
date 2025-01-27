@@ -1,5 +1,9 @@
 #ifndef GAMEMANAGER_H
 #define GAMEMANAGER_H
+#include "Player.h"
+#include "Game.h"
+#include "Animation.h"
+#include "AnimManager.h"
 #include <thread>
 #include <chrono>
 #include "Game.h"
@@ -16,14 +20,22 @@ private:
     float army_move_per_second = 1000;
     std::chrono::time_point<std::chrono::steady_clock> lastMoveTime;
     Player* player;
+    Game* game;
+    AnimManager* animationManager;
     sf::RenderWindow& window;
+
+
+    std::vector<std::shared_ptr<Animation>> animations;
+
 public:
-    GameManager(sf::RenderWindow& window, Player* p);
+    GameManager(sf::RenderWindow& window, Player* p, Game* g, AnimManager* animManager);
     ~GameManager();
     void handleInput();
     void movingAlienArmy(Game &game);
     void CalculateMaxPositions(float& min, float& max, Game& game);
     void checkForCollision(Game& game, Player& player);
+    void startNewLevel();
+
 };
 
 #endif // GAMEMANAGER_H

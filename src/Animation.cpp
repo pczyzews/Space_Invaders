@@ -1,17 +1,16 @@
 #include "Animation.h"
 #include <iostream>
+#include "Entity.h"
+
 
 Animation::Animation(const sf::Texture& texture, int frameWidth, int frameHeight, int frameCount, float frameDuration, bool loop)
     : currentFrame(0), frameDuration(frameDuration), loop(loop), playing(false) {
-    // Ustawienie sprite'a
     sprite.setTexture(texture);
 
-    // Wyliczanie klatek
     for (int i = 0; i < frameCount; ++i) {
         frames.emplace_back(i * frameWidth, 0, frameWidth, frameHeight);
     }
 
-    // Ustawienie początkowej klatki
     sprite.setTextureRect(frames[0]);
 
     std::cout << "Wczytano klatki animacji:" << std::endl;
@@ -20,11 +19,32 @@ Animation::Animation(const sf::Texture& texture, int frameWidth, int frameHeight
     }
 }
 
-void Animation::setPosition(float x, float y) {
-    sprite.setPosition(x, y);
-    std::cout << "Pozycja sprite: (" << x << ", " << y << ")" << std::endl;
+Animation::~Animation() = default;
 
+// void Animation::setPositionReference(float* x, float* y) {
+//     positionX = x;
+//     positionY = y;
+//     if (positionX && positionY) {
+//         sprite.setPosition(*positionX, *positionY);
+//         std::cout << "Pozycja sprite: (" << *positionX << ", " << *positionY << ")" << std::endl;
+//     }
+// }
+
+void Animation::setReference(Entity* x) {
+    entity = x;
+    positionX = x->getPositionXPtr();
+    positionY = x->getPositionYPtr();
+    if (positionX && positionY) {
+        sprite.setPosition(*positionX, *positionY);
+        std::cout << "Pozycja sprite: (" << *positionX << ", " << *positionY << ")" << std::endl;
+
+    }
 }
+
+// void Animation::setPosition(float x, float y) {
+//     sprite.setPosition(x, y);
+//     std::cout << "Pozycja sprite: (" << x << ", " << y << ")" << std::endl;
+// }
 
 void Animation::setScale(float scaleX, float scaleY) {
     sprite.setScale(scaleX, scaleY);
@@ -43,18 +63,28 @@ void Animation::stop() {
     playing = false;
 }
 
+Entity* Animation::getEntity() {
+    return entity;
+}
+
 void Animation::reset() {
     currentFrame = 0;
     sprite.setTextureRect(frames[0]);
-    clock.restart();
+    elapsedTime = 0.0f;
 }
 
-void Animation::update() {
+void Animation::update(float deltaTime) {
     if (!playing) return;
 
-    if (clock.getElapsedTime().asSeconds() > frameDuration) {
+
+    if (positionX && positionY) {
+        sprite.setPosition(*positionX, *positionY);
+    }
+    elapsedTime += deltaTime;
+
+    if (elapsedTime > frameDuration) {
+        elapsedTime -= frameDuration;
         currentFrame = (currentFrame + 1) % frames.size();
-        std::cout << "Aktualna klatka: " << currentFrame << std::endl;
 
         if (!loop && currentFrame == 0) {
             stop();
@@ -62,10 +92,11 @@ void Animation::update() {
         }
 
         sprite.setTextureRect(frames[currentFrame]);
-        clock.restart();
     }
 }
 
 void Animation::draw(sf::RenderWindow& window) {
+    if (!playing) return;
     window.draw(sprite);
 }
+

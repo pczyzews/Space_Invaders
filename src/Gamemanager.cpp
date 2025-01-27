@@ -4,7 +4,8 @@
 #include <chrono>
 #include <iostream>
 
-GameManager::GameManager(sf::RenderWindow& window ,Player* p) : window(window), player(p) {
+GameManager::GameManager(sf::RenderWindow& window ,Player* p, Game* g, AnimManager* animManager)
+: window(window), player(p), game(g), animationManager(animManager) {
     isRunning = true;
     lastMoveTime = std::chrono::steady_clock::now();
 }
@@ -73,9 +74,14 @@ void GameManager::checkForCollision(Game& game,Player& player)
                 (*alienIt)->getPositionY() + (*alienIt)->getSizeY() >= (*projectileIt)->getPositionY() &&
                 (*alienIt)->getPositionY() <= (*projectileIt)->getPositionY() + (*projectileIt)->getSizeY())
             {
+                animationManager->checkRemove(alienIt->get());
                 projectileIt = player.getProjectiles().erase(projectileIt);
                 alienIt = game.getAlienArmy().erase(alienIt);
                 alienRemoved = true;
+                game.score += 10;
+                std::cout << "SCORE: " << game.score << std::endl;
+                std::cout << "Liczba alienów: " << game.getAlienArmy().size() << std::endl;
+                if (game.getAlienArmy().empty()) startNewLevel();
                 break;
             }
             ++projectileIt;
@@ -101,4 +107,22 @@ void GameManager::checkForCollision(Game& game,Player& player)
     }
     printf("Player is %d\n", player.isAlive());
 }
+
+void GameManager::startNewLevel() {
+    game->level += 1;
+    game->createArmy();
+    army_move_per_second = 1000;
+
+    animationManager->clearAnimations();
+
+    animationManager->loadTextures(
+        animationManager->getPlayerTexture(),
+        animationManager->getAlienTexture1(),
+        animationManager->getAlienTexture2(),
+        animationManager->getAlienTexture3());
+
+    animationManager->addAlienAnimations(game);
+    animationManager->addPlayerAnimation(player);
+}
+
 

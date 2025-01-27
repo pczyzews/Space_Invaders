@@ -3,6 +3,7 @@
 #include "Player.h"
 #include "Projectile.h"
 #include "Gamemanager.h"
+#include "AnimManager.h"
 #include "Alien.h"
 #include <vector>
 #include <thread>
@@ -16,17 +17,41 @@ int main() {
 
     window.setFramerateLimit(144);
 
-    sf::Texture playerTexture;
-    playerTexture.loadFromFile("../textures/2player.png");
+    Game game;
+    Player test(64, 64, 368, 600);
+    AnimManager animationManager;
+    GameManager manager(window, &test, &game, &animationManager);
 
-    if (playerTexture.loadFromFile("../textures/2player.png")) {
-        std::cerr << "Udało się załadować teksturę!" << std::endl;
+
+    //animationManager.loadAnimations(&test, &game);
+
+    sf::Texture playerTexture;
+    if (!playerTexture.loadFromFile("../textures/2player.png")) {
+        std::cerr << "Błąd podczas ładowania tekstury gracza!" << std::endl;
     }
 
-    Player test(64, 64, 368, 600, playerTexture, 16, 16,2 ,0.5);
-    Game game;
-    GameManager manager(window, &test);
+    sf::Texture alienTexture1;
+    if (!alienTexture1.loadFromFile("../textures/2alien1.png")) {
+        std::cerr << "Błąd podczas ładowania tekstury 2alien1!" << std::endl;
+    }
 
+    sf::Texture alienTexture2;
+    if (!alienTexture2.loadFromFile("../textures/2alien2.png")) {
+        std::cerr << "Błąd podczas ładowania tekstury 2alien2!" << std::endl;
+    }
+
+    sf::Texture alienTexture3;
+    if (!alienTexture3.loadFromFile("../textures/2alien3.png")) {
+        std::cerr << "Błąd podczas ładowania tekstury 2alien3!" << std::endl;
+    }
+
+    animationManager.loadTextures(playerTexture, alienTexture1, alienTexture2, alienTexture3);
+    animationManager.addPlayerAnimation(&test);
+    animationManager.addAlienAnimations(&game);
+
+
+
+    sf::Clock clock;
 
         while (window.isOpen())
         {
@@ -42,14 +67,18 @@ int main() {
             {
                 window.setSize(sf::Vector2u(800, 700));
             }
+            float deltaTime = clock.restart().asSeconds();
 
+            window.clear();
+            manager.handleInput();
+            manager.movingAlienArmy(game);
 
-        manager.handleInput();
-        manager.movingAlienArmy(game);
-        window.clear();
-        //window.draw(test.getRect());
-            test.update();
+            // window.draw(test.getRect());
+            test.update(deltaTime);
             test.draw(window);
+            animationManager.updateAll(deltaTime);
+            animationManager.drawAll(window);
+            //animationManager.checkRemove();
             for (const auto& alien : game.getAlienArmy())
             {
                 window.draw(alien->getRect());

@@ -15,14 +15,15 @@ private:
     bool alive = true;
     double weaponCooldown = 0.0;
     ProjectileVector projectiles;
+    sf::Clock clock;
 
 public:
-    Player(float sizeX, float sizeY, float positionX, float positionY, const sf::Texture& texture, int frameWidth, int frameHeight, int frameCount, float frameDuration);
+    Player(float sizeX, float sizeY, float positionX, float positionY);
     ~Player();
     void MoveLeft();
     void MoveRight();
     void Shot();
-    void update();
+    void update(float deltaTime);
     void draw(sf::RenderWindow& window);
     void updateProjectiles();
     std::vector<std::shared_ptr<Projectile>>& getProjectiles();

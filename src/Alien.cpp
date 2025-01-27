@@ -3,8 +3,12 @@
 #include <Projectile.h>
 #include <iostream>
 
-Alien::Alien(float sizeX, float sizeY, float positionX, float positionY) : Entity(sizeX, sizeY, positionX, positionY) {}
-Alien::~Alien(){}
+Alien::Alien(float sizeX, float sizeY, float positionX, float positionY)
+    : Entity(sizeX, sizeY, positionX, positionY) {
+}
+
+Alien::~Alien()=default;
+
 
 void Alien::updateProjectile(sf::RenderWindow& window)
 {

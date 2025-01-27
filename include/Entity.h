@@ -16,6 +16,8 @@ private:
     sf::RectangleShape rect;
 
 public:
+    float* getPositionXPtr();
+    float* getPositionYPtr();
     float getPositionX() const;
     float getPositionY() const;
     float getSizeX() const;
