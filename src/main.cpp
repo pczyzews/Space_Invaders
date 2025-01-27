@@ -54,6 +54,7 @@ int main() {
             {
                 window.draw(alien->getRect());
             }
+            manager.checkForCollision(game, test);
         window.display();
         }
 

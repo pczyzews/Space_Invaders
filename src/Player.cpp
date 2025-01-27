@@ -65,3 +65,8 @@ void Player::draw(sf::RenderWindow& window) {
     }
 }
 
+std::vector<std::shared_ptr<Projectile>>& Player::getProjectiles()
+{
+    return projectiles;
+}
+

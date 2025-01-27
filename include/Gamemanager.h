@@ -21,6 +21,7 @@ public:
     void handleInput();
     void movingAlienArmy(Game &game);
     void CalculateMaxPositions(float& min, float& max, Game& game);
+    void checkForCollision(Game& game, Player& player);
 };
 
 #endif // GAMEMANAGER_H

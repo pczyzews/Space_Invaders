@@ -3,7 +3,6 @@
 #include "Player.h"
 #include <chrono>
 #include <iostream>
-#include <SFML/Graphics.hpp>
 
 GameManager::GameManager(Player* p) : player(p) {
     isRunning = true;
@@ -62,4 +61,26 @@ void GameManager::movingAlienArmy(Game& game) {
     }
 }
 
+void GameManager::checkForCollision(Game& game,Player& player)
+{
+    for (auto alienIt = game.getAlienArmy().begin(); alienIt != game.getAlienArmy().end(); ) {
+        bool alienRemoved = false;
+        for (auto projectileIt = player.getProjectiles().begin(); projectileIt != player.getProjectiles().end(); ) {
+            if ((*alienIt)->getPositionX() + (*alienIt)->getSizeX() >= (*projectileIt)->getPositionX() &&
+                (*alienIt)->getPositionX() <= (*projectileIt)->getPositionX() + (*projectileIt)->getSizeX() &&
+                (*alienIt)->getPositionY() + (*alienIt)->getSizeY() >= (*projectileIt)->getPositionY() &&
+                (*alienIt)->getPositionY() <= (*projectileIt)->getPositionY() + (*projectileIt)->getSizeY())
+            {
+                projectileIt = player.getProjectiles().erase(projectileIt);
+                alienIt = game.getAlienArmy().erase(alienIt);
+                alienRemoved = true;
+                break;
+            }
+            ++projectileIt;
+        }
+        if (!alienRemoved) {
+            ++alienIt;
+        }
+    }
+}
 

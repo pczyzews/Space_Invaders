@@ -23,6 +23,7 @@ public:
     void update();
     void draw(sf::RenderWindow& window);
     void updateProjectiles();
+    std::vector<std::shared_ptr<Projectile>>& getProjectiles();
 
 
 };
