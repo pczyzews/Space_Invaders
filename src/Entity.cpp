@@ -30,4 +30,12 @@ void Entity::updatePosition(float offsetX, float offsetY)
 
 sf::RectangleShape& Entity::getRect(){ return rect; }
 
+float* Entity::getPositionXPtr() {
+    return &positionX;
+}
+
+float* Entity::getPositionYPtr() {
+    return &positionY;
+}
+
 Entity::~Entity() = default;

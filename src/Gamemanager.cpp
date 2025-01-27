@@ -1,10 +1,9 @@
 #include "Gamemanager.h"
 #include <SFML/Graphics.hpp>
-#include "Player.h"
 #include <chrono>
 #include <iostream>
 
-GameManager::GameManager(Player* p) : player(p) {
+GameManager::GameManager(Player* p, Game* g) : player(p), game(g) {
     isRunning = true;
     lastMoveTime = std::chrono::steady_clock::now();
 }

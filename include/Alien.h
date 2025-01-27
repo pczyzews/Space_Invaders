@@ -3,13 +3,13 @@
 #include "Entity.h"
 #include "Projectile.h"
 
+
 class Alien : public Entity
 {
     private:
-
     public:
-        Alien(float sizeX, float sizeY, float positionX, float positionY);
-        ~Alien();
+    Alien(float sizeX, float sizeY, float positionX, float positionY);
+    ~Alien();
 };
 
 
