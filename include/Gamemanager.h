@@ -16,8 +16,9 @@ private:
     float army_move_per_second = 1000;
     std::chrono::time_point<std::chrono::steady_clock> lastMoveTime;
     Player* player;
+    sf::RenderWindow& window;
 public:
-    GameManager(Player* p);
+    GameManager(sf::RenderWindow& window, Player* p);
     ~GameManager();
     void handleInput();
     void movingAlienArmy(Game &game);

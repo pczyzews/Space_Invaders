@@ -25,7 +25,7 @@ int main() {
 
     Player test(64, 64, 368, 600, playerTexture, 16, 16,2 ,0.5);
     Game game;
-    GameManager manager(&test);
+    GameManager manager(window, &test);
 
 
         while (window.isOpen())
@@ -53,6 +53,7 @@ int main() {
             for (const auto& alien : game.getAlienArmy())
             {
                 window.draw(alien->getRect());
+                alien->updateProjectile(window);
             }
             manager.checkForCollision(game, test);
         window.display();

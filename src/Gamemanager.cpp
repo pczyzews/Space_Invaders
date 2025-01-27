@@ -4,7 +4,7 @@
 #include <chrono>
 #include <iostream>
 
-GameManager::GameManager(Player* p) : player(p) {
+GameManager::GameManager(sf::RenderWindow& window ,Player* p) : window(window), player(p) {
     isRunning = true;
     lastMoveTime = std::chrono::steady_clock::now();
 }
@@ -42,6 +42,7 @@ void GameManager::movingAlienArmy(Game& game) {
             for (const auto& alien : game.getAlienArmy()) {
                 alien->getRect().move(0, 10);
                 alien->updatePosition(0, 10);
+                alien->alienShot(window);
             }
             alien_step = -alien_step;
             check_army_movement_down = true;
@@ -52,6 +53,7 @@ void GameManager::movingAlienArmy(Game& game) {
             for (const auto& alien : game.getAlienArmy()) {
                 alien->getRect().move(alien_step, 0);
                 alien->updatePosition(alien_step, 0);
+                alien->alienShot(window);
             }
             check_army_movement_down = false;
         }
@@ -82,5 +84,21 @@ void GameManager::checkForCollision(Game& game,Player& player)
             ++alienIt;
         }
     }
+    for (auto alienIt = game.getAlienArmy().begin(); alienIt != game.getAlienArmy().end();)
+    {
+        if ((*alienIt)->getHasShot())
+        {
+            if ((*alienIt)->getProjectile()->getPositionX() + (*alienIt)->getProjectile()->getSizeX() >= player.getPositionX() &&
+                (*alienIt)->getProjectile()->getPositionX() <= player.getPositionX() + player.getSizeX() &&
+                (*alienIt)->getProjectile()->getPositionY() + (*alienIt)->getProjectile()->getSizeY() >= player.getPositionY() &&
+                (*alienIt)->getProjectile()->getPositionY() <= player.getPositionY() + player.getSizeY())
+            {
+                player.die();
+
+            }
+        }
+        ++alienIt;
+    }
+    printf("Player is %d\n", player.isAlive());
 }
 

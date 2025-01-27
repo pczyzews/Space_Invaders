@@ -70,3 +70,12 @@ std::vector<std::shared_ptr<Projectile>>& Player::getProjectiles()
     return projectiles;
 }
 
+void Player::die()
+{
+    alive = false;
+}
+
+bool Player::isAlive()
+{
+    return alive;
+}

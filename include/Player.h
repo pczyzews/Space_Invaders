@@ -12,6 +12,7 @@ using ProjectileVector = std::vector<std::shared_ptr<Projectile>>;
 class Player : public Entity {
 private:
     Animation animation;
+    bool alive = true;
     double weaponCooldown = 0.0;
     ProjectileVector projectiles;
 
@@ -25,6 +26,8 @@ public:
     void draw(sf::RenderWindow& window);
     void updateProjectiles();
     std::vector<std::shared_ptr<Projectile>>& getProjectiles();
+    void die();
+    bool isAlive();
 
 
 };
