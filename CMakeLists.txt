@@ -32,7 +32,9 @@ set(SOURCE_FILES
         src/Projectile.cpp
         src/main.cpp
         src/animation.cpp
-        include/animation.h)
+        include/animation.h
+        src/AnimManager.cpp
+        include/AnimManager.h)
 
 add_executable(Project ${SOURCE_FILES})
 

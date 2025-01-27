@@ -1,9 +1,14 @@
 #ifndef GAMEMANAGER_H
 #define GAMEMANAGER_H
 #include "Player.h"
+#include "Game.h"
+#include "Animation.h"
 #include <thread>
 #include <chrono>
-#include "Game.h"
+
+
+
+
 
 class GameManager {
 private:
@@ -15,8 +20,12 @@ private:
     float army_move_per_second = 1000;
     std::chrono::time_point<std::chrono::steady_clock> lastMoveTime;
     Player* player;
+    Game* game;
+
+    std::vector<std::shared_ptr<Animation>> animations;
+
 public:
-    GameManager(Player* p);
+    GameManager(Player* p, Game* g);
     ~GameManager();
     void handleInput();
     void movingAlienArmy(Game &game);

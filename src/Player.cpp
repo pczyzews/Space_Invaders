@@ -4,11 +4,8 @@
 #include <chrono>
 
 
-Player::Player(float sizeX, float sizeY, float positionX, float positionY, const sf::Texture& texture, int frameWidth, int frameHeight, int frameCount, float frameDuration)
-    : Entity(sizeX, sizeY, positionX, positionY), animation(texture, frameWidth, frameHeight, frameCount, frameDuration) {
-    animation.setPosition(positionX, positionY);
-    animation.setScale(sizeX/frameWidth, sizeY/frameHeight);
-    animation.play();
+Player::Player(float sizeX, float sizeY, float positionX, float positionY)
+    : Entity(sizeX, sizeY, positionX, positionY) {
 }
 
 Player::~Player() = default;
@@ -16,26 +13,16 @@ Player::~Player() = default;
 void Player::MoveLeft() {
     getRect().move(-1.0, 0.0);
     updatePosition(-1.0, 0);
-    animation.setPosition(getPositionX(), getPositionY());
 }
 void Player::MoveRight() {
     getRect().move(1.0, 0.0);
     updatePosition(1.0, 0);
-    animation.setPosition(getPositionX(), getPositionY());
-}
-
-double GetTime() {
-    auto now = std::chrono::steady_clock::now();
-    auto duration = std::chrono::duration_cast<std::chrono::duration<double>>(now.time_since_epoch());
-    return duration.count();
 }
 
 void Player::Shot() {
-    double currentTime = GetTime();
-
-    if (currentTime - weaponCooldown >= 0.4) {
-        projectiles.push_back(std::make_shared<Projectile>(10.0, 20.0, getPositionX() + getSizeX()/2 - 5, getPositionY(), true));
-        weaponCooldown = currentTime;
+    if (clock.getElapsedTime().asSeconds() >= 0.4f) {
+        projectiles.push_back(std::make_shared<Projectile>(10.0, 20.0, getPositionX() + getSizeX() / 2 - 5, getPositionY(), true));
+        clock.restart();
         std::cout << "Current number of projectiles: " << projectiles.size() << std::endl;
     }
 }
@@ -54,12 +41,11 @@ void Player::updateProjectiles() {
     }
 }
 
-void Player::update() {
-    animation.update();
+void Player::update(float deltaTime) {
     updateProjectiles();
 }
+
 void Player::draw(sf::RenderWindow& window) {
-    animation.draw(window);
     for (auto& projectile : projectiles) {
         projectile->draw(window);
     }

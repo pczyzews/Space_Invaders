@@ -3,30 +3,76 @@
 #include "Player.h"
 #include "Projectile.h"
 #include "Gamemanager.h"
+#include "AnimManager.h"
 #include "Alien.h"
 #include <vector>
 #include <thread>
-#include <chrono>
 
 using namespace std;
 
 int main() {
     sf::RenderWindow window(sf::VideoMode(800, 700), "Space Invaders", sf::Style::Titlebar | sf::Style::Close);
-
-
     window.setFramerateLimit(144);
+
+    Game game;
 
     sf::Texture playerTexture;
     playerTexture.loadFromFile("../textures/2player.png");
 
-    if (playerTexture.loadFromFile("../textures/2player.png")) {
-        std::cerr << "Udało się załadować teksturę!" << std::endl;
+
+    Player test(64, 64, 368, 600);
+
+    AnimManager animationManager;
+    GameManager manager(&test, &game);
+
+    animationManager.addAnimation(
+    std::make_shared<Animation>(playerTexture, 16, 16, 2, 0.5f, true),
+    test.getPositionXPtr(),
+    test.getPositionYPtr(),
+    test.getSizeX() / 16.0f,
+    test.getSizeY() / 16.0f
+);
+
+
+    sf::Texture alienTexture1;
+    alienTexture1.loadFromFile("../textures/2alien1.png");
+    sf::Texture alienTexture2;
+    alienTexture2.loadFromFile("../textures/2alien2.png");
+    sf::Texture alienTexture3;
+    alienTexture3.loadFromFile("../textures/2alien3.png");
+
+    int alienCount = game.getAlienArmy().size();
+    int quarter = alienCount / 4;
+    int index = 0;
+
+    for (const auto& alien : game.getAlienArmy()) {
+        const sf::Texture* currentTexture = nullptr;
+
+        if (index < quarter) {
+            currentTexture = &alienTexture1;
+        } else if (index < 2 * quarter) {
+            currentTexture = &alienTexture2;
+        } else {
+            currentTexture = &alienTexture3;
+        }
+
+        animationManager.addAnimation(
+            std::make_shared<Animation>(
+                *currentTexture, 11, 11, 2, 0.3f, true
+            ),
+            alien->getPositionXPtr(),
+            alien->getPositionYPtr(),
+            alien->getSizeX() / 11.0f,
+            alien->getSizeY() / 11.0f
+        );
+
+        ++index;
     }
 
-    Player test(64, 64, 368, 600, playerTexture, 16, 16,2 ,0.5);
-    Game game;
-    GameManager manager(&test);
 
+
+
+    sf::Clock clock;
 
         while (window.isOpen())
         {
@@ -42,19 +88,25 @@ int main() {
             {
                 window.setSize(sf::Vector2u(800, 700));
             }
+            float deltaTime = clock.restart().asSeconds();
 
 
-        manager.handleInput();
-        manager.movingAlienArmy(game);
-        window.clear();
-        //window.draw(test.getRect());
-            test.update();
+            manager.handleInput();
+            manager.movingAlienArmy(game);
+            window.clear();
+
+            // window.draw(test.getRect());
+            // for (const auto& alien : game.getAlienArmy())
+            // {
+            //     window.draw(alien->getRect());
+            // }
+
+            test.update(deltaTime);
             test.draw(window);
-            for (const auto& alien : game.getAlienArmy())
-            {
-                window.draw(alien->getRect());
-            }
-        window.display();
+            animationManager.updateAll(deltaTime);
+            animationManager.drawAll(window);
+
+            window.display();
         }
 
     }
