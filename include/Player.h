@@ -7,12 +7,13 @@
 #include <vector>
 #include <memory>
 
+using ProjectileVector = std::vector<std::shared_ptr<Projectile>>;
 
 class Player : public Entity {
 private:
     Animation animation;
     double weaponCooldown = 0.0;
-    std::vector<std::shared_ptr<Projectile>> projectiles;
+    ProjectileVector projectiles;
 
 public:
     Player(float sizeX, float sizeY, float positionX, float positionY, const sf::Texture& texture, int frameWidth, int frameHeight, int frameCount, float frameDuration);

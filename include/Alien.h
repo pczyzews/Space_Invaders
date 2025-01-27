@@ -1,6 +1,7 @@
 #ifndef ALIEN_H
 #define ALIEN_H
 #include "Entity.h"
+#include "Projectile.h"
 
 class Alien : public Entity
 {
