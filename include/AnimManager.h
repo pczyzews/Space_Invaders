@@ -14,10 +14,13 @@ private:
     std::vector<std::shared_ptr<Animation>> animations;
 public:
     void loadAnimations(Player& player, Game& game);
-    void addAnimation(const std::shared_ptr<Animation>& animation, float* x, float* y, float scaleX, float scaleY);
+    void addAnimation(const std::shared_ptr<Animation>& animation, Entity* x, float scaleX, float scaleY);
     void updateAll(float deltaTime);
     void drawAll(sf::RenderWindow& window);
     void removeAnimation(const std::shared_ptr<Animation>& animation);
+    void checkRemove(Entity* removed);
+    //void removeAnimationByOwner(Entity* owner);
+
 };
 
 

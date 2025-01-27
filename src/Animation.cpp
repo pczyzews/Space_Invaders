@@ -1,5 +1,7 @@
 #include "Animation.h"
 #include <iostream>
+#include "Entity.h"
+
 
 Animation::Animation(const sf::Texture& texture, int frameWidth, int frameHeight, int frameCount, float frameDuration, bool loop)
     : currentFrame(0), frameDuration(frameDuration), loop(loop), playing(false) {
@@ -19,9 +21,19 @@ Animation::Animation(const sf::Texture& texture, int frameWidth, int frameHeight
 
 Animation::~Animation() = default;
 
-void Animation::setPositionReference(float* x, float* y) {
-    positionX = x;
-    positionY = y;
+// void Animation::setPositionReference(float* x, float* y) {
+//     positionX = x;
+//     positionY = y;
+//     if (positionX && positionY) {
+//         sprite.setPosition(*positionX, *positionY);
+//         std::cout << "Pozycja sprite: (" << *positionX << ", " << *positionY << ")" << std::endl;
+//     }
+// }
+
+void Animation::setReference(Entity* x) {
+    entity = x;
+    positionX = x->getPositionXPtr();
+    positionY = x->getPositionYPtr();
     if (positionX && positionY) {
         sprite.setPosition(*positionX, *positionY);
         std::cout << "Pozycja sprite: (" << *positionX << ", " << *positionY << ")" << std::endl;
@@ -49,6 +61,10 @@ void Animation::play() {
 
 void Animation::stop() {
     playing = false;
+}
+
+Entity* Animation::getEntity() {
+    return entity;
 }
 
 void Animation::reset() {
@@ -80,6 +96,7 @@ void Animation::update(float deltaTime) {
 }
 
 void Animation::draw(sf::RenderWindow& window) {
+    if (!playing) return;
     window.draw(sprite);
 }
 

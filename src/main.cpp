@@ -18,21 +18,21 @@ int main() {
     Game game;
     Player test(64, 64, 368, 600);
     AnimManager animationManager;
-    GameManager manager(&test, &game);
+    GameManager manager(&test, &game, &animationManager);
 
 
-    animationManager.loadAnimations(test, game);
+    //animationManager.loadAnimations(test, game);
 
     sf::Texture playerTexture;
     playerTexture.loadFromFile("../textures/2player.png");
 
     animationManager.addAnimation(
     std::make_shared<Animation>(playerTexture, 16, 16, 2, 0.5f, true),
-    test.getPositionXPtr(),
-    test.getPositionYPtr(),
+     &test,
     test.getSizeX() / 16.0f,
     test.getSizeY() / 16.0f
-);
+    );
+
     sf::Texture alienTexture1;
     alienTexture1.loadFromFile("../textures/2alien1.png");
     sf::Texture alienTexture2;
@@ -59,8 +59,7 @@ int main() {
             std::make_shared<Animation>(
                 *currentTexture, 11, 11, 2, 0.3f, true
             ),
-            alien->getPositionXPtr(),
-            alien->getPositionYPtr(),
+            alien.get(),
             alien->getSizeX() / 11.0f,
             alien->getSizeY() / 11.0f
         );
@@ -104,6 +103,8 @@ int main() {
             test.draw(window);
             animationManager.updateAll(deltaTime);
             animationManager.drawAll(window);
+            //animationManager.checkRemove();
+
 
             manager.checkForCollision(game, test);
 

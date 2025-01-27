@@ -3,7 +3,7 @@
 #include <chrono>
 #include <iostream>
 
-GameManager::GameManager(Player* p, Game* g) : player(p), game(g) {
+GameManager::GameManager(Player* p, Game* g, AnimManager* animManager) : player(p), game(g), animationManager(animManager) {
     isRunning = true;
     lastMoveTime = std::chrono::steady_clock::now();
 }
@@ -70,9 +70,13 @@ void GameManager::checkForCollision(Game& game,Player& player)
                 (*alienIt)->getPositionY() + (*alienIt)->getSizeY() >= (*projectileIt)->getPositionY() &&
                 (*alienIt)->getPositionY() <= (*projectileIt)->getPositionY() + (*projectileIt)->getSizeY())
             {
+                animationManager->checkRemove(alienIt->get());
                 projectileIt = player.getProjectiles().erase(projectileIt);
                 alienIt = game.getAlienArmy().erase(alienIt);
                 alienRemoved = true;
+                game.score += 10;
+                std::cout << "Liczba alienów: " << game.getAlienArmy().size() << std::endl;
+                if (game.getAlienArmy().empty()) startNewLevel();
                 break;
             }
             ++projectileIt;
@@ -82,4 +86,11 @@ void GameManager::checkForCollision(Game& game,Player& player)
         }
     }
 }
+
+void GameManager::startNewLevel() {
+    game->level += 1;
+    game->createArmy();
+    //animationManager->loadAnimations(*player, *game);
+}
+
 

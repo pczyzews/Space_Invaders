@@ -5,6 +5,7 @@
 #include <vector>
 #include <memory>
 
+class Entity;
 
 class Animation {
 private:
@@ -17,17 +18,20 @@ private:
     bool playing;
     float* positionX = nullptr;
     float* positionY = nullptr;
+    Entity* entity;
 
 public:
     Animation(const sf::Texture& texture, int frameWidth, int frameHeight, int frameCount, float frameDuration, bool loop = true);
     ~Animation();
 
-    void setPositionReference(float* x, float* y);
+    //void setPositionReference(float* x, float* y);
+    void setReference(Entity* x);
     void setScale(float scaleX, float scaleY);
     void setLoop(bool shouldLoop);
     void play();
     void stop();
     void reset();
+    Entity* getEntity();
 
     void update(float deltaTime);
     void draw(sf::RenderWindow& window);

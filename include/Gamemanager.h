@@ -3,9 +3,9 @@
 #include "Player.h"
 #include "Game.h"
 #include "Animation.h"
+#include "AnimManager.h"
 #include <thread>
 #include <chrono>
-#include "Game.h"
 
 class GameManager {
 private:
@@ -18,16 +18,19 @@ private:
     std::chrono::time_point<std::chrono::steady_clock> lastMoveTime;
     Player* player;
     Game* game;
+    AnimManager* animationManager;
 
     std::vector<std::shared_ptr<Animation>> animations;
 
 public:
-    GameManager(Player* p, Game* g);
+    GameManager(Player* p, Game* g, AnimManager* animManager);
     ~GameManager();
     void handleInput();
     void movingAlienArmy(Game &game);
     void CalculateMaxPositions(float& min, float& max, Game& game);
     void checkForCollision(Game& game, Player& player);
+    void startNewLevel();
+
 };
 
 #endif // GAMEMANAGER_H
