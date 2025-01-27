@@ -5,6 +5,8 @@ Projectile::Projectile(float sizeX, float sizeY, float positionX, float position
 {
     if (direction == true) {
         setTexture("../textures/fire1.png");
+    } else {
+        setTexture("../textures/fire0.png");
     }
 }
 Projectile::~Projectile(){}

@@ -8,6 +8,19 @@ GameManager::GameManager(sf::RenderWindow& window ,Player* p, Game* g, AnimManag
 : window(window), player(p), game(g), animationManager(animManager) {
     isRunning = true;
     lastMoveTime = std::chrono::steady_clock::now();
+
+    if (!font.loadFromFile("../textures/slkscr.ttf")) {
+        std::cerr << "Failed to load font!" << std::endl;
+    }
+    scoreText.setFont(font);
+    scoreText.setCharacterSize(30);
+    scoreText.setFillColor(sf::Color::White);
+    scoreText.setPosition(10.f, 10.f);
+
+    levelText.setFont(font);
+    levelText.setCharacterSize(30);
+    levelText.setFillColor(sf::Color::White);
+    levelText.setPosition(650.f, 10.f);
 }
 
 GameManager::~GameManager() {
@@ -124,4 +137,10 @@ void GameManager::startNewLevel() {
     animationManager->addPlayerAnimation(player);
 }
 
+void GameManager::drawUI() {
+    scoreText.setString("Score: " + std::to_string(game->score));
+    levelText.setString("Level: " + std::to_string(game->level));
 
+    window.draw(scoreText);
+    window.draw(levelText);
+}

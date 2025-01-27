@@ -55,6 +55,7 @@ int main() {
             window.clear();
             manager.handleInput();
             manager.movingAlienArmy(game);
+            manager.drawUI();
 
             //window.draw(test.getRect());
             test.update(deltaTime);

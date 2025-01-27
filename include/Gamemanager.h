@@ -11,6 +11,9 @@ class Player;
 
 class GameManager {
 private:
+    sf::Font font;
+    sf::Text scoreText;
+    sf::Text levelText;
     bool isRunning;
     float alien_step = 10.0f;
     float min_alien_position = 100;
@@ -34,6 +37,8 @@ public:
     void CalculateMaxPositions(float& min, float& max, Game& game);
     void checkForCollision(Game& game, Player& player);
     void startNewLevel();
+    void drawUI();
+
 
 };
 
