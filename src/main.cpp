@@ -21,52 +21,31 @@ int main() {
     GameManager manager(&test, &game, &animationManager);
 
 
-    //animationManager.loadAnimations(test, game);
+    //animationManager.loadAnimations(&test, &game);
 
     sf::Texture playerTexture;
-    playerTexture.loadFromFile("../textures/2player.png");
-
-    animationManager.addAnimation(
-    std::make_shared<Animation>(playerTexture, 16, 16, 2, 0.5f, true),
-     &test,
-    test.getSizeX() / 16.0f,
-    test.getSizeY() / 16.0f
-    );
-
-    sf::Texture alienTexture1;
-    alienTexture1.loadFromFile("../textures/2alien1.png");
-    sf::Texture alienTexture2;
-    alienTexture2.loadFromFile("../textures/2alien2.png");
-    sf::Texture alienTexture3;
-    alienTexture3.loadFromFile("../textures/2alien3.png");
-
-    int alienCount = game.getAlienArmy().size();
-    int quarter = alienCount / 4;
-    int index = 0;
-
-    for (const auto& alien : game.getAlienArmy()) {
-        const sf::Texture* currentTexture = nullptr;
-
-        if (index < quarter) {
-            currentTexture = &alienTexture1;
-        } else if (index < 2 * quarter) {
-            currentTexture = &alienTexture2;
-        } else {
-            currentTexture = &alienTexture3;
-        }
-
-        animationManager.addAnimation(
-            std::make_shared<Animation>(
-                *currentTexture, 11, 11, 2, 0.3f, true
-            ),
-            alien.get(),
-            alien->getSizeX() / 11.0f,
-            alien->getSizeY() / 11.0f
-        );
-
-        ++index;
+    if (!playerTexture.loadFromFile("../textures/2player.png")) {
+        std::cerr << "Błąd podczas ładowania tekstury gracza!" << std::endl;
     }
 
+    sf::Texture alienTexture1;
+    if (!alienTexture1.loadFromFile("../textures/2alien1.png")) {
+        std::cerr << "Błąd podczas ładowania tekstury 2alien1!" << std::endl;
+    }
+
+    sf::Texture alienTexture2;
+    if (!alienTexture2.loadFromFile("../textures/2alien2.png")) {
+        std::cerr << "Błąd podczas ładowania tekstury 2alien2!" << std::endl;
+    }
+
+    sf::Texture alienTexture3;
+    if (!alienTexture3.loadFromFile("../textures/2alien3.png")) {
+        std::cerr << "Błąd podczas ładowania tekstury 2alien3!" << std::endl;
+    }
+
+    animationManager.loadTextures(playerTexture, alienTexture1, alienTexture2, alienTexture3);
+    animationManager.addPlayerAnimation(&test);
+    animationManager.addAlienAnimations(&game);
 
 
 
@@ -88,10 +67,9 @@ int main() {
             }
             float deltaTime = clock.restart().asSeconds();
 
-
+            window.clear();
             manager.handleInput();
             manager.movingAlienArmy(game);
-            window.clear();
 
             // window.draw(test.getRect());
             // for (const auto& alien : game.getAlienArmy())

@@ -45,7 +45,7 @@ void GameManager::movingAlienArmy(Game& game) {
             alien_step = -alien_step;
             check_army_movement_down = true;
             if (army_move_per_second >= 300) {
-                army_move_per_second -= 100;
+                army_move_per_second -= 200;
             }
         } else {
             for (const auto& alien : game.getAlienArmy()) {
@@ -75,6 +75,7 @@ void GameManager::checkForCollision(Game& game,Player& player)
                 alienIt = game.getAlienArmy().erase(alienIt);
                 alienRemoved = true;
                 game.score += 10;
+                std::cout << "SCORE: " << game.score << std::endl;
                 std::cout << "Liczba alienów: " << game.getAlienArmy().size() << std::endl;
                 if (game.getAlienArmy().empty()) startNewLevel();
                 break;
@@ -90,7 +91,18 @@ void GameManager::checkForCollision(Game& game,Player& player)
 void GameManager::startNewLevel() {
     game->level += 1;
     game->createArmy();
-    //animationManager->loadAnimations(*player, *game);
+    army_move_per_second = 1000;
+
+    animationManager->clearAnimations();
+
+    animationManager->loadTextures(
+        animationManager->getPlayerTexture(),
+        animationManager->getAlienTexture1(),
+        animationManager->getAlienTexture2(),
+        animationManager->getAlienTexture3());
+
+    animationManager->addAlienAnimations(game);
+    animationManager->addPlayerAnimation(player);
 }
 
 
