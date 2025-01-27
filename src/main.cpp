@@ -15,15 +15,15 @@ int main() {
     window.setFramerateLimit(144);
 
     Game game;
+    Player test(64, 64, 368, 600);
+    AnimManager animationManager;
+    GameManager manager(&test, &game);
+
+
+    animationManager.loadAnimations(test, game);
 
     sf::Texture playerTexture;
     playerTexture.loadFromFile("../textures/2player.png");
-
-
-    Player test(64, 64, 368, 600);
-
-    AnimManager animationManager;
-    GameManager manager(&test, &game);
 
     animationManager.addAnimation(
     std::make_shared<Animation>(playerTexture, 16, 16, 2, 0.5f, true),
@@ -32,8 +32,6 @@ int main() {
     test.getSizeX() / 16.0f,
     test.getSizeY() / 16.0f
 );
-
-
     sf::Texture alienTexture1;
     alienTexture1.loadFromFile("../textures/2alien1.png");
     sf::Texture alienTexture2;
