@@ -16,15 +16,13 @@ private:
     float elapsedTime = 0.0f;
     bool loop;
     bool playing;
-    float* positionX = nullptr;
-    float* positionY = nullptr;
+    std::shared_ptr<float> positionX = nullptr;
+    std::shared_ptr<float> positionY = nullptr;
     Entity* entity;
 
 public:
     Animation(const sf::Texture& texture, int frameWidth, int frameHeight, int frameCount, float frameDuration, bool loop = true);
     ~Animation();
-
-    //void setPositionReference(float* x, float* y);
     void setReference(Entity* x);
     void setScale(float scaleX, float scaleY);
     void setLoop(bool shouldLoop);

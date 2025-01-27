@@ -7,7 +7,6 @@
 class Game
 {
     private:
-
         std::vector<std::shared_ptr<Alien>> alien_army;
     public:
     int score = 0;

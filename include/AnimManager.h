@@ -30,7 +30,7 @@ public:
     void addAnimation(const std::shared_ptr<Animation>& animation, Entity* x, float scaleX, float scaleY);
     void updateAll(float deltaTime);
     void drawAll(sf::RenderWindow& window);
-    void removeAnimation(const std::shared_ptr<Animation>& animation);
+    //void removeAnimation(const std::shared_ptr<Animation>& animation);
     void checkRemove(Entity* removed);
 
     void loadTextures(const sf::Texture& pTexture, const sf::Texture& texture1, const sf::Texture& texture2, const sf::Texture& texture3);

@@ -8,15 +8,16 @@ Player::Player(float sizeX, float sizeY, float positionX, float positionY)
     : Entity(sizeX, sizeY, positionX, positionY) {
 }
 
-Player::~Player() = default;
 
 void Player::MoveLeft() {
-    getRect().move(-1.0, 0.0);
-    updatePosition(-1.0, 0);
+    if (getPositionX() > 0) {
+        updatePosition(-2.0, 0);
+    }
 }
 void Player::MoveRight() {
-    getRect().move(1.0, 0.0);
-    updatePosition(1.0, 0);
+    if (getPositionX() < 801 - 2 - getSizeX()) {
+        updatePosition(2.0, 0);
+    }
 }
 
 void Player::Shot() {
@@ -65,3 +66,6 @@ bool Player::isAlive()
 {
     return alive;
 }
+
+Player::~Player() = default;
+

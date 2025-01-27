@@ -2,27 +2,28 @@
 #define ENTITY_H
 #include <SFML/Graphics/RectangleShape.hpp>
 #include <SFML/Graphics/Texture.hpp>
+#include <SFML/Graphics/RenderWindow.hpp> //potrzebne
 #include <string>
-#include <SFML/Graphics/RenderWindow.hpp>
+#include <memory>
 
 class Entity
 {
 private:
     float sizeX;
     float sizeY;
-    float positionX;
-    float positionY;
+    std::shared_ptr<float> positionX;
+    std::shared_ptr<float> positionY;
     sf::Texture texture;
     sf::RectangleShape rect;
 
 public:
-    float* getPositionXPtr();
-    float* getPositionYPtr();
+    std::shared_ptr<float> getPositionXPtr() const { return positionX; }
+    std::shared_ptr<float> getPositionYPtr() const { return positionY; }
     float getPositionX() const;
     float getPositionY() const;
     float getSizeX() const;
     float getSizeY() const;
-    float getSpeed();
+    //float getSpeed();
     Entity(float sizeX, float sizeY, float positionX, float positionY);
     virtual ~Entity();
     void setTexture(const std::string& texturePath);

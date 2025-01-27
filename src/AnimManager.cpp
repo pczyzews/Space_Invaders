@@ -68,15 +68,16 @@ void AnimManager::drawAll(sf::RenderWindow& window) {
     }
 }
 
-void AnimManager::removeAnimation(const std::shared_ptr<Animation>& animation) {
-    //animations.erase(std::remove(animations.begin(), animations.end(), animation), animations.end());
-    animation->stop();
-}
+// void AnimManager::removeAnimation(const std::shared_ptr<Animation>& animation) {
+//     animation->stop();
+// }
 
 void AnimManager::checkRemove(Entity* removed) {
     for (auto& animation : animations) {
         if (animation->getEntity() == removed) {
-            removeAnimation(animation);
+            //removeAnimation(animation);
+            animation->stop();
+
         }
     }
 }

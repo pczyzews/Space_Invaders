@@ -1,12 +1,11 @@
 #ifndef GAMEMANAGER_H
 #define GAMEMANAGER_H
-#include "Player.h"
 #include "Game.h"
 #include "Animation.h"
 #include "AnimManager.h"
 #include <thread>
 #include <chrono>
-#include "Game.h"
+
 
 class Player;
 

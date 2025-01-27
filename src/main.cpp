@@ -7,7 +7,6 @@
 #include "Alien.h"
 #include <vector>
 #include <thread>
-#include <chrono>
 
 using namespace std;
 
@@ -18,32 +17,16 @@ int main() {
     window.setFramerateLimit(144);
 
     Game game;
-    Player test(64, 64, 368, 600);
+    Player test(64, 64, 368, 580);
     AnimManager animationManager;
     GameManager manager(window, &test, &game, &animationManager);
 
 
-    //animationManager.loadAnimations(&test, &game);
-
-    sf::Texture playerTexture;
-    if (!playerTexture.loadFromFile("../textures/2player.png")) {
-        std::cerr << "Błąd podczas ładowania tekstury gracza!" << std::endl;
-    }
-
-    sf::Texture alienTexture1;
-    if (!alienTexture1.loadFromFile("../textures/2alien1.png")) {
-        std::cerr << "Błąd podczas ładowania tekstury 2alien1!" << std::endl;
-    }
-
-    sf::Texture alienTexture2;
-    if (!alienTexture2.loadFromFile("../textures/2alien2.png")) {
-        std::cerr << "Błąd podczas ładowania tekstury 2alien2!" << std::endl;
-    }
-
-    sf::Texture alienTexture3;
-    if (!alienTexture3.loadFromFile("../textures/2alien3.png")) {
-        std::cerr << "Błąd podczas ładowania tekstury 2alien3!" << std::endl;
-    }
+    sf::Texture playerTexture, alienTexture1, alienTexture2, alienTexture3;
+    playerTexture.loadFromFile("../textures/2player.png");
+    alienTexture1.loadFromFile("../textures/2alien1.png");
+    alienTexture2.loadFromFile("../textures/2alien2.png");
+    alienTexture3.loadFromFile("../textures/2alien3.png");
 
     animationManager.loadTextures(playerTexture, alienTexture1, alienTexture2, alienTexture3);
     animationManager.addPlayerAnimation(&test);
@@ -73,7 +56,7 @@ int main() {
             manager.handleInput();
             manager.movingAlienArmy(game);
 
-            // window.draw(test.getRect());
+            //window.draw(test.getRect());
             test.update(deltaTime);
             test.draw(window);
             animationManager.updateAll(deltaTime);

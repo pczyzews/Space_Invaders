@@ -21,14 +21,6 @@ Animation::Animation(const sf::Texture& texture, int frameWidth, int frameHeight
 
 Animation::~Animation() = default;
 
-// void Animation::setPositionReference(float* x, float* y) {
-//     positionX = x;
-//     positionY = y;
-//     if (positionX && positionY) {
-//         sprite.setPosition(*positionX, *positionY);
-//         std::cout << "Pozycja sprite: (" << *positionX << ", " << *positionY << ")" << std::endl;
-//     }
-// }
 
 void Animation::setReference(Entity* x) {
     entity = x;
@@ -40,11 +32,6 @@ void Animation::setReference(Entity* x) {
 
     }
 }
-
-// void Animation::setPosition(float x, float y) {
-//     sprite.setPosition(x, y);
-//     std::cout << "Pozycja sprite: (" << x << ", " << y << ")" << std::endl;
-// }
 
 void Animation::setScale(float scaleX, float scaleY) {
     sprite.setScale(scaleX, scaleY);
