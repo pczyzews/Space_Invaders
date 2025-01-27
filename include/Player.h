@@ -11,7 +11,6 @@ using ProjectileVector = std::vector<std::shared_ptr<Projectile>>;
 
 class Player : public Entity {
 private:
-    Animation animation;
     bool alive = true;
     double weaponCooldown = 0.0;
     ProjectileVector projectiles;

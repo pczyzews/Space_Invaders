@@ -1,6 +1,15 @@
 #include "AnimManager.h"
 #include <iostream>
 
+
+
+void AnimManager::loadTextures(const sf::Texture& pTexture, const sf::Texture& texture1, const sf::Texture& texture2, const sf::Texture& texture3) {
+    playerTexture = pTexture;
+    alienTexture1 = texture1;
+    alienTexture2 = texture2;
+    alienTexture3 = texture3;
+}
+
 void AnimManager::addPlayerAnimation(Player* player) {
     addAnimation(
         std::make_shared<Animation>(playerTexture, 16, 16, 2, 0.5f, true),
@@ -8,13 +17,6 @@ void AnimManager::addPlayerAnimation(Player* player) {
         player->getSizeX() / 16.0f,
         player->getSizeY() / 16.0f
     );
-}
-
-void AnimManager::loadTextures(const sf::Texture& pTexture, const sf::Texture& texture1, const sf::Texture& texture2, const sf::Texture& texture3) {
-    playerTexture = pTexture;
-    alienTexture1 = texture1;
-    alienTexture2 = texture2;
-    alienTexture3 = texture3;
 }
 
 void AnimManager::addAlienAnimations(Game* game) {

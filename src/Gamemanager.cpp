@@ -105,7 +105,6 @@ void GameManager::checkForCollision(Game& game,Player& player)
         }
         ++alienIt;
     }
-    printf("Player is %d\n", player.isAlive());
 }
 
 void GameManager::startNewLevel() {

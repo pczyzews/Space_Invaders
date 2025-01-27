@@ -78,10 +78,10 @@ int main() {
             test.draw(window);
             animationManager.updateAll(deltaTime);
             animationManager.drawAll(window);
-            //animationManager.checkRemove();
+
             for (const auto& alien : game.getAlienArmy())
             {
-                window.draw(alien->getRect());
+                //window.draw(alien->getRect());
                 alien->updateProjectile(window);
             }
             manager.checkForCollision(game, test);
