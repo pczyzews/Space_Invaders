@@ -3,6 +3,7 @@
 #include <memory>
 #include "Entity.h"
 
+
 class Projectile;
 
 
@@ -19,6 +20,7 @@ class Alien : public Entity
         void updateProjectile(sf::RenderWindow& window);
         bool getHasShot();
         std::shared_ptr<Projectile> getProjectile();
+        void updateShootingProbability(float level);
 };
 
 

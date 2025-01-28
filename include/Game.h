@@ -8,13 +8,15 @@ class Game
 {
     private:
         std::vector<std::shared_ptr<Alien>> alien_army;
+        int score = 0;
+        int level = 1;
     public:
-    int score = 0;
-    int level = 1;
         void createArmy();
         explicit Game();
         ~Game();
         std::vector<std::shared_ptr<Alien>>& getAlienArmy();
+        int& getScore();
+        int& getLevel();
 
 
 };

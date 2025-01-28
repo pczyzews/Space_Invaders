@@ -20,4 +20,12 @@ void Game::createArmy() {
 }
 
 
+int& Game::getLevel()
+{
+    return level;
+}
+int& Game::getScore()
+{
+    return score;
+}
 

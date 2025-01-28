@@ -52,4 +52,8 @@ std::shared_ptr<Projectile> Alien::getProjectile()
 }
 
 
+void Alien::updateShootingProbability(float level)
+{
+    shooting_probability += level;
+}
 
