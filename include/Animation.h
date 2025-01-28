@@ -33,6 +33,8 @@ public:
 
     void update(float deltaTime);
     void draw(sf::RenderWindow& window);
+
+    void setPosition(float x, float y);
 };
 
 #endif // ANIMATION_H

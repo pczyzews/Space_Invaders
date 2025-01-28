@@ -87,3 +87,7 @@ void Animation::draw(sf::RenderWindow& window) {
     window.draw(sprite);
 }
 
+void Animation::setPosition(float x, float y) {
+    sprite.setPosition(x, y);
+}
+

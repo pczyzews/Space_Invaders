@@ -42,7 +42,7 @@ public:
     void drawLvlScore();
     void drawLives();
     void render();
-
+    void displayStartScreen(sf::RenderWindow& window);
 };
 
 #endif // GAMEMANAGER_H

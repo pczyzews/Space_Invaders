@@ -12,9 +12,8 @@ using namespace std;
 
 int main() {
     sf::RenderWindow window(sf::VideoMode(800, 700), "Space Invaders", sf::Style::Titlebar | sf::Style::Close);
-
-
     window.setFramerateLimit(144);
+
 
     Game game;
     Player test(48, 48, 376, 580);
@@ -22,17 +21,18 @@ int main() {
     GameManager manager(window, &test, &game, &animationManager);
 
 
-    sf::Texture playerTexture, alienTexture1, alienTexture2, alienTexture3;
+    sf::Texture playerTexture, alienTexture1, alienTexture2, alienTexture3, boomTexture;
     playerTexture.loadFromFile("../textures/2player.png");
     alienTexture1.loadFromFile("../textures/2alien1.png");
     alienTexture2.loadFromFile("../textures/2alien2.png");
     alienTexture3.loadFromFile("../textures/2alien3.png");
+    boomTexture.loadFromFile("../textures/boom.png");
 
-    animationManager.loadTextures(playerTexture, alienTexture1, alienTexture2, alienTexture3);
+    animationManager.loadTextures(playerTexture, alienTexture1, alienTexture2, alienTexture3, boomTexture);
     animationManager.addPlayerAnimation(&test);
     animationManager.addAlienAnimations(&game);
 
-
+    manager.displayStartScreen(window);
 
     sf::Clock clock;
 

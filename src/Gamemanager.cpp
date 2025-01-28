@@ -92,6 +92,7 @@ void GameManager::checkForCollision(Game& game,Player& player)
                 (*alienIt)->getPositionY() + (*alienIt)->getSizeY() >= (*projectileIt)->getPositionY() &&
                 (*alienIt)->getPositionY() <= (*projectileIt)->getPositionY() + (*projectileIt)->getSizeY())
             {
+                animationManager->collisionAnimation((*alienIt)->getPositionX(), (*alienIt)->getPositionY(), (*alienIt)->getSizeX(),(*alienIt)->getSizeY());
                 animationManager->checkRemove(alienIt->get());
                 projectileIt = player.getProjectiles().erase(projectileIt);
                 alienIt = game.getAlienArmy().erase(alienIt);
@@ -117,6 +118,7 @@ void GameManager::checkForCollision(Game& game,Player& player)
                 (*alienIt)->getProjectile()->getPositionY() + (*alienIt)->getProjectile()->getSizeY() >= player.getPositionY() &&
                 (*alienIt)->getProjectile()->getPositionY() <= player.getPositionY() + player.getSizeY())
             {
+                animationManager->collisionAnimation(player.getPositionX(), player.getPositionY(), player.getSizeX(),player.getSizeY());
                 (*alienIt)->projectileReset();
                 player.hit();
             }
@@ -136,7 +138,8 @@ void GameManager::startNewLevel() {
         animationManager->getPlayerTexture(),
         animationManager->getAlienTexture1(),
         animationManager->getAlienTexture2(),
-        animationManager->getAlienTexture3());
+        animationManager->getAlienTexture3(),
+         animationManager->getBoomTexture());
 
     animationManager->addAlienAnimations(game);
     animationManager->addPlayerAnimation(player);
@@ -163,4 +166,55 @@ void GameManager::drawLives() {
 void GameManager::render() {
     drawLvlScore();
     drawLives();
+}
+
+
+void GameManager::displayStartScreen(sf::RenderWindow& window) {
+    sf::Font font;
+    if (!font.loadFromFile("../textures/slkscr.ttf")) {
+        std::cerr << "Nie można załadować czcionki!" << std::endl;
+        return;
+    }
+
+    sf::Text title;
+    title.setFont(font);
+    title.setString("Space Invaders");
+    title.setCharacterSize(60);
+    title.setFillColor(sf::Color::White);
+    title.setPosition(120, 250);
+
+    sf::Text startText;
+    startText.setFont(font);
+    startText.setString("Press ENTER to Start");
+    startText.setCharacterSize(24);
+    startText.setFillColor(sf::Color::White);
+    startText.setPosition(240, 500);
+
+    sf::Clock blinkClock;
+    bool showText = true;
+    bool gameStarted = false;
+
+    while (window.isOpen() && !gameStarted) {
+        sf::Event event;
+        while (window.pollEvent(event)) {
+            if (event.type == sf::Event::Closed) {
+                window.close();
+            }
+            if (event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::Enter) {
+                gameStarted = true;
+            }
+        }
+
+        if (blinkClock.getElapsedTime().asSeconds() > 0.5f) {
+            showText = !showText;
+            blinkClock.restart();
+        }
+
+        window.clear(sf::Color::Black);
+        window.draw(title);
+        if (showText) {
+            window.draw(startText);
+        }
+        window.display();
+    }
 }
