@@ -17,7 +17,7 @@ int main() {
     window.setFramerateLimit(144);
 
     Game game;
-    Player test(64, 64, 368, 580);
+    Player test(48, 48, 376, 580);
     AnimManager animationManager;
     GameManager manager(window, &test, &game, &animationManager);
 
@@ -55,7 +55,7 @@ int main() {
             window.clear();
             manager.handleInput();
             manager.movingAlienArmy(game);
-            manager.drawUI();
+            manager.render();
 
             //window.draw(test.getRect());
             test.update(deltaTime);

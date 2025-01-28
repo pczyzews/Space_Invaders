@@ -14,8 +14,8 @@ void Alien::updateProjectile(sf::RenderWindow& window)
 {
     if (has_shot)
     {
-        projectile->getRect().move(0, 5);
-        projectile->updatePosition(0,5);
+        projectile->getRect().move(0, 2);
+        projectile->updatePosition(0,2);
         projectile -> draw(window);
         if (projectile->getPositionY() > 700)
         {
@@ -51,5 +51,12 @@ std::shared_ptr<Projectile> Alien::getProjectile()
     return projectile;
 }
 
-
+void Alien::projectileReset()
+{
+    if (projectile)
+    {
+        projectile.reset();
+        has_shot = false;
+    }
+}
 

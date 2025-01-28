@@ -30,8 +30,8 @@ void Player::Shot() {
 
 void Player::updateProjectiles() {
     for (auto it = projectiles.begin(); it != projectiles.end(); ) {
-        (*it)->getRect().move(0, -5);
-        (*it)->updatePosition(0, -5);
+        (*it)->getRect().move(0, -3);
+        (*it)->updatePosition(0, -3);
 
         if ((*it)->getPositionY() < 0) {
             it = projectiles.erase(it);
@@ -57,6 +57,17 @@ std::vector<std::shared_ptr<Projectile>>& Player::getProjectiles()
     return projectiles;
 }
 
+void Player::hit() {
+    if (deathCooldown.getElapsedTime().asSeconds() >= deathCooldownTime) {
+        lives --;
+        reset(376,580);
+        deathCooldown.restart();
+        if (lives == 0) {
+            die();
+        }
+    }
+}
+
 void Player::die()
 {
     alive = false;
@@ -66,6 +77,20 @@ bool Player::isAlive()
 {
     return alive;
 }
+
+void Player::reset(float x, float y) {
+    *getPositionXPtr() = x;
+    *getPositionYPtr() = y;
+    getRect().setPosition(x, y);
+
+    projectiles.clear();
+}
+
+int Player::getLives() const {
+    return lives;
+}
+
+
 
 Player::~Player() = default;
 

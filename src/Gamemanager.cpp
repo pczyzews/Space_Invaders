@@ -21,6 +21,11 @@ GameManager::GameManager(sf::RenderWindow& window ,Player* p, Game* g, AnimManag
     levelText.setCharacterSize(30);
     levelText.setFillColor(sf::Color::White);
     levelText.setPosition(650.f, 10.f);
+
+    if (!heartTexture.loadFromFile("../textures/heart2.png")) {
+        std::cerr << "Failed to load heart texture!" << std::endl;
+    }
+    heartSprite.setTexture(heartTexture);
 }
 
 GameManager::~GameManager() {
@@ -112,8 +117,8 @@ void GameManager::checkForCollision(Game& game,Player& player)
                 (*alienIt)->getProjectile()->getPositionY() + (*alienIt)->getProjectile()->getSizeY() >= player.getPositionY() &&
                 (*alienIt)->getProjectile()->getPositionY() <= player.getPositionY() + player.getSizeY())
             {
-                player.die();
-
+                (*alienIt)->projectileReset();
+                player.hit();
             }
         }
         ++alienIt;
@@ -135,6 +140,9 @@ void GameManager::startNewLevel() {
 
     animationManager->addAlienAnimations(game);
     animationManager->addPlayerAnimation(player);
+
+    player->reset(400.f - player->getSizeX() / 2, 580.f);
+
 }
 
 void GameManager::drawUI() {
@@ -143,4 +151,16 @@ void GameManager::drawUI() {
 
     window.draw(scoreText);
     window.draw(levelText);
+}
+
+void GameManager::drawLives() {
+    for (int i = 0; i < player->getLives(); ++i) {
+        heartSprite.setPosition(20.f + i * 50, 660);
+        window.draw(heartSprite);
+    }
+}
+
+void GameManager::render() {
+    drawUI();
+    drawLives();
 }
