@@ -11,21 +11,23 @@ class Player;
 
 class GameManager {
 private:
-    sf::Font font;
-    sf::Text scoreText;
-    sf::Text levelText;
     bool isRunning;
     float alien_step = 10.0f;
     float min_alien_position = 100;
     float max_alien_position = 660;
     bool check_army_movement_down = false;
     float army_move_per_second = 1000;
+
+    sf::Font font;
+    sf::Text scoreText;
+    sf::Text levelText;
+    sf::Texture heartTexture;
+    sf::Sprite heartSprite;
     std::chrono::time_point<std::chrono::steady_clock> lastMoveTime;
     Player* player;
     Game* game;
     AnimManager* animationManager;
     sf::RenderWindow& window;
-
 
     std::vector<std::shared_ptr<Animation>> animations;
 
@@ -37,9 +39,10 @@ public:
     void CalculateMaxPositions(float& min, float& max, Game& game);
     void checkForCollision(Game& game, Player& player);
     void startNewLevel();
-    void drawUI();
-
-
+    void drawLvlScore();
+    void drawLives();
+    void render();
+    void displayStartScreen(sf::RenderWindow& window);
 };
 
 #endif // GAMEMANAGER_H

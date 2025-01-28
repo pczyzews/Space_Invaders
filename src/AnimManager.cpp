@@ -3,11 +3,12 @@
 
 
 
-void AnimManager::loadTextures(const sf::Texture& pTexture, const sf::Texture& texture1, const sf::Texture& texture2, const sf::Texture& texture3) {
+void AnimManager::loadTextures(const sf::Texture& pTexture, const sf::Texture& texture1, const sf::Texture& texture2, const sf::Texture& texture3, const sf::Texture& bTexture) {
     playerTexture = pTexture;
     alienTexture1 = texture1;
     alienTexture2 = texture2;
     alienTexture3 = texture3;
+    boomTexture = bTexture;
 }
 
 void AnimManager::addPlayerAnimation(Player* player) {
@@ -52,7 +53,7 @@ void AnimManager::addAnimation(const std::shared_ptr<Animation>& animation, Enti
     animation->setScale(scaleX, scaleY);
     animation->play();
     animations.push_back(animation);
-    std::cout << "Dodano animację. Obecna liczba animacji: " << animations.size() << std::endl;
+    std::cout << "Obecna liczba animacji: " << animations.size() << std::endl;
 
 }
 
@@ -99,4 +100,22 @@ const sf::Texture& AnimManager::getAlienTexture3() const {
 
 const sf::Texture& AnimManager::getPlayerTexture() const {
     return playerTexture;
+}
+
+const sf::Texture& AnimManager::getBoomTexture() const {
+    return boomTexture;
+}
+
+void AnimManager::collisionAnimation(float x, float y, float sizeX, float sizeY) {
+    float frameWidth = 16;
+    float frameHeight = 16;
+    int frameCount = 15;
+    float frameDuration = 0.05f;
+    bool loop = false;
+    auto explosionAnimation = std::make_shared<Animation>(boomTexture, frameWidth, frameHeight, frameCount, frameDuration, loop);
+
+    explosionAnimation->setPosition(x, y);
+    explosionAnimation->setScale(sizeX/frameWidth, sizeY/frameHeight);
+    explosionAnimation->play();
+    animations.push_back(explosionAnimation);
 }

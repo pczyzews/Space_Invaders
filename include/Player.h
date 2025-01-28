@@ -14,7 +14,9 @@ private:
     bool alive = true;
     double weaponCooldown = 0.0;
     ProjectileVector projectiles;
-    sf::Clock clock;
+    sf::Clock clock, deathCooldown;
+    const float deathCooldownTime = 2.0f;
+    int lives = 3;
 
 public:
     Player(float sizeX, float sizeY, float positionX, float positionY);
@@ -26,10 +28,11 @@ public:
     void draw(sf::RenderWindow& window);
     void updateProjectiles();
     std::vector<std::shared_ptr<Projectile>>& getProjectiles();
+    void hit();
     void die();
     bool isAlive();
-
-
+    void reset(float x, float y);
+    int getLives() const;
 };
 
 #endif //PLAYER_H
