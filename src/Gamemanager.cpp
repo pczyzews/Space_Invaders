@@ -145,7 +145,7 @@ void GameManager::startNewLevel() {
 
 }
 
-void GameManager::drawUI() {
+void GameManager::drawLvlScore() {
     scoreText.setString("Score: " + std::to_string(game->score));
     levelText.setString("Level: " + std::to_string(game->level));
 
@@ -161,6 +161,6 @@ void GameManager::drawLives() {
 }
 
 void GameManager::render() {
-    drawUI();
+    drawLvlScore();
     drawLives();
 }

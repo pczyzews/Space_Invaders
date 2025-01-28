@@ -39,7 +39,7 @@ public:
     void CalculateMaxPositions(float& min, float& max, Game& game);
     void checkForCollision(Game& game, Player& player);
     void startNewLevel();
-    void drawUI();
+    void drawLvlScore();
     void drawLives();
     void render();
 

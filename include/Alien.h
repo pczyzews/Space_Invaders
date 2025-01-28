@@ -5,7 +5,6 @@
 
 class Projectile;
 
-
 class Alien : public Entity
 {
     private:
@@ -22,8 +21,5 @@ class Alien : public Entity
         void projectileReset();
 
 };
-
-
-
 
 #endif // ALIEN_H
