@@ -97,8 +97,8 @@ void GameManager::checkForCollision(Game& game,Player& player)
                 projectileIt = player.getProjectiles().erase(projectileIt);
                 alienIt = game.getAlienArmy().erase(alienIt);
                 alienRemoved = true;
-                game.score += 10;
-                std::cout << "SCORE: " << game.score << std::endl;
+                game.getScore() += 10;
+                std::cout << "SCORE: " << game.getScore() << std::endl;
                 std::cout << "Liczba alienów: " << game.getAlienArmy().size() << std::endl;
                 if (game.getAlienArmy().empty()) startNewLevel();
                 break;
@@ -128,7 +128,7 @@ void GameManager::checkForCollision(Game& game,Player& player)
 }
 
 void GameManager::startNewLevel() {
-    game->level += 1;
+    game->getLevel() += 1;
     game->createArmy();
     army_move_per_second = 1000;
 
@@ -149,8 +149,8 @@ void GameManager::startNewLevel() {
 }
 
 void GameManager::drawLvlScore() {
-    scoreText.setString("Score: " + std::to_string(game->score));
-    levelText.setString("Level: " + std::to_string(game->level));
+    scoreText.setString("Score: " + std::to_string(game->getScore()));
+    levelText.setString("Level: " + std::to_string(game->getLevel()));
 
     window.draw(scoreText);
     window.draw(levelText);
