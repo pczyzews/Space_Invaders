@@ -1,20 +1,26 @@
 #ifndef GAME_H
 #define GAME_H
-#include <vector>
-#include "Alien.h"
+#include <SFML/Graphics/Texture.hpp>
 #include <memory>
+#include <vector>
 
-#include "Bunker.h"
-#include "Player.h"
+class Bunker;
+class Projectile;
+class Player;
+class Alien;
+
+using ProjectileVector = std::vector<std::shared_ptr<Projectile>>;
+using AlienVector = std::vector<std::shared_ptr<Alien>>;
+using BunkerVector = std::vector<std::shared_ptr<Bunker>>;
 
 class Game
 {
     private:
         std::shared_ptr<Player> player;
-        std::vector<std::shared_ptr<Projectile>> alienProjectiles;
-        std::vector<std::shared_ptr<Projectile>> playerProjectiles;
-        std::vector<std::shared_ptr<Alien>> alien_army;
-        std::vector<std::shared_ptr<Bunker>> wall;
+        ProjectileVector alienProjectiles;
+        ProjectileVector playerProjectiles;
+        AlienVector alien_army;
+        BunkerVector wall;
         std::shared_ptr<sf::Texture> brickTexture;
         int score = 0;
         int level = 1;
@@ -22,16 +28,18 @@ class Game
         void createArmy();
         explicit Game();
         ~Game();
-        int& getScore();
-        int& getLevel();
+        int getScore() const;
+        int getLevel() const;
+        void increaseScore(int inc);
+        void increaseLevel(int inc);
         void startGame();
         void createWall();
         void clearWall();
         std::shared_ptr<Player>& getPlayer();
-        std::vector<std::shared_ptr<Projectile>>& getPlayerProjectiles();
-        std::vector<std::shared_ptr<Projectile>>& getAlienProjectiles();
-        std::vector<std::shared_ptr<Alien>>& getAlienArmy();
-        std::vector<std::shared_ptr<Bunker>>& getWall();
+        ProjectileVector& getPlayerProjectiles();
+        ProjectileVector& getAlienProjectiles();
+        AlienVector& getAlienArmy();
+        BunkerVector& getWall();
 
 
 

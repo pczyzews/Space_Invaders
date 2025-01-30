@@ -2,10 +2,8 @@
 #define ENTITY_H
 #include <SFML/Graphics/RectangleShape.hpp>
 #include <SFML/Graphics/Texture.hpp>
-#include <SFML/Graphics/RenderWindow.hpp> //potrzebne
-#include <string>
 #include <memory>
-#include "Projectile.h"
+class Projectile;
 
 class Entity
 {

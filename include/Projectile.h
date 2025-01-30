@@ -17,8 +17,8 @@ public:
     virtual ~Projectile();
     void draw(sf::RenderWindow& window);
     virtual void updatePosition() = 0;
-    void setPositionX(float x);
-    void setPositionY(float y);
+    void setPositionX(float x) const;
+    void setPositionY(float y) const;
     float getPositionX() const;
     float getPositionY() const;
     float getSizeX() const;

@@ -1,7 +1,6 @@
-#include "Play.h"
-#include <iostream>
 #include "Game.h"
 #include "AnimManager.h"
+#include "Play.h"
 #include "Gamemanager.h"
 
 Play::Play() {}
@@ -29,7 +28,6 @@ void Play::run(sf::Event& event,sf::RenderWindow* window)
 
     while (window->isOpen())
     {
-        sf::Event event;
         while (window->pollEvent(event))
         {
             if (event.type == sf::Event::Closed)

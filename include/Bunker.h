@@ -21,7 +21,7 @@ public:
     bool isDestroyed() const;
 
     void updateTexture();
-    void draw(sf::RenderWindow& window);
+    void draw(sf::RenderWindow& window) const;
 
     float getPositionX() const { return positionX; }
     float getPositionY() const { return positionY; }

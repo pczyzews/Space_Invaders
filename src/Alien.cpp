@@ -1,10 +1,6 @@
 #include <Alien.h>
-#include <random>
 #include <Projectile.h>
 #include <iostream>
-
-#include "AlienFactory.h"
-#include "AlienProjectile.h"
 #include "AlienProjectileFactory.h"
 
 Alien::Alien(float sizeX, float sizeY, float positionX, float positionY)
@@ -13,8 +9,13 @@ Alien::Alien(float sizeX, float sizeY, float positionX, float positionY)
 
 std::shared_ptr<Projectile> Alien::shoot()
 {
-    AlienProjectileFactory factory;
-    return factory.createProjectile(getPositionX() + getSizeX() / 2 - 5, getPositionY());
+    try {
+        AlienProjectileFactory factory;
+        return factory.createProjectile(getPositionX() + getSizeX() / 2 - 5, getPositionY());
+    } catch (const std::exception& e) {
+        std::cerr << "Exception in Alien::shoot: " << e.what() << std::endl;
+        return nullptr;
+    }
 }
 
 

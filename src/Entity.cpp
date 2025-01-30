@@ -19,11 +19,14 @@ float Entity::getSizeY() const { return sizeY; }
 
 void Entity::setTexture(const std::string& texturePath)
 {
-    texture.loadFromFile(texturePath);
-    if (!texture.loadFromFile(texturePath)) {
-        std::cerr << "Error loading texture from: " << texturePath << std::endl;
+    try {
+        if (!texture.loadFromFile(texturePath)) {
+            throw std::runtime_error("Failed to load texture: " + texturePath);
+        }
+        rect.setTexture(&texture);
+    } catch (const std::exception& e) {
+        std::cerr << "Exception caught in setTexture: " << e.what() << std::endl;
     }
-    rect.setTexture(&texture);
 }
 void Entity::updatePosition(float offsetX, float offsetY)
 {

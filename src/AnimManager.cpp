@@ -1,4 +1,8 @@
 #include "AnimManager.h"
+#include "Animation.h"
+#include "Player.h"
+#include "Game.h"
+#include "Alien.h"
 #include <iostream>
 
 
@@ -48,7 +52,7 @@ void AnimManager::addAlienAnimations(Game* game) {
 }
 
 
-void AnimManager::addAnimation(const std::shared_ptr<Animation>& animation, std::shared_ptr<Entity> x, float scaleX, float scaleY) {
+void AnimManager::addAnimation(const std::shared_ptr<Animation>& animation, const std::shared_ptr<Entity>& x, float scaleX, float scaleY) {
     animation->setReference(x);
     animation->setScale(scaleX, scaleY);
     animation->play();
@@ -62,13 +66,14 @@ void AnimManager::updateAll(float deltaTime) {
     }
 }
 
-void AnimManager::drawAll(sf::RenderWindow& window) {
+void AnimManager::drawAll(sf::RenderWindow& window) const
+{
     for (auto& animation : animations) {
         animation->draw(window);
     }
 }
 
-void AnimManager::checkRemove(std::shared_ptr<Entity> &removed) {
+void AnimManager::checkRemove(std::shared_ptr<Entity> const &removed) {
     for (auto& animation : animations) {
         if (animation->getEntity() == removed) {
             animation->stop();

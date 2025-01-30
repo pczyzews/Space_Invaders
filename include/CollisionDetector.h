@@ -1,13 +1,13 @@
 #ifndef COLLISIONDETECTOR_H
 #define COLLISIONDETECTOR_H
 
-#include "Game.h"
-#include "AnimManager.h"
+class Game;
+class AnimManager;
 
 class CollisionDetector {
 public:
     explicit CollisionDetector(AnimManager* animationManager);
-    void checkForCollision(Game& game);
+    void checkForCollision(Game& game) const;
 
 private:
     AnimManager* animationManager;

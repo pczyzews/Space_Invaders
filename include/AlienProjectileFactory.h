@@ -1,8 +1,6 @@
 #ifndef ALIENPROJECTILEFACTORY_H
 #define ALIENPROJECTILEFACTORY_H
-
 #include "ProjectileFactory.h"
-#include "AlienProjectile.h"
 
 class AlienProjectileFactory : public ProjectileFactory {
 public:

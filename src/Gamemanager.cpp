@@ -1,11 +1,13 @@
-#include "GameManager.h"
-#include "Player.h"
-#include "AlienProjectile.h"
-#include "CollisionDetector.h"
-#include <random>
-#include <SFML/Graphics.hpp>
-#include <chrono>
+#include "Gamemanager.h"
 #include <iostream>
+#include "CollisionDetector.h"
+#include "Game.h"
+#include "Player.h"
+#include "Alien.h"
+#include <random>
+#include "AnimManager.h"
+#include "Projectile.h"
+#include "Bunker.h"
 
 GameManager::GameManager(sf::RenderWindow& window, Game* g, AnimManager* animManager)
     : window(window), game(g), animationManager(animManager)
@@ -40,7 +42,8 @@ GameManager::~GameManager() {
     collisionDetector = nullptr;
 }
 
-void GameManager::handleInput() {
+void GameManager::handleInput() const
+{
     if (isRunning) {
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right))
             game->getPlayer()->MoveRight();
@@ -116,7 +119,7 @@ void GameManager::movingAlienArmy(Game& game)
 }
 
 void GameManager::startNewLevel() {
-    game->getLevel() += 1;
+    game->increaseLevel(1);
     game->createArmy();
     game->clearWall();
     game->createWall();
@@ -138,7 +141,8 @@ void GameManager::startNewLevel() {
     game->getPlayer()->reset(400.f - game->getPlayer()->getSizeX() / 2, 580.f);
 }
 
-void GameManager::removeProjectiles() {
+void GameManager::removeProjectiles() const
+{
     auto& alienProjectiles = game->getAlienProjectiles();
     for (auto it = alienProjectiles.begin(); it != alienProjectiles.end(); ) {
         if ((*it)->getPositionY() > 700) {
@@ -173,7 +177,8 @@ void GameManager::drawLives() {
     }
 }
 
-void GameManager::drawProjectiles(sf::RenderWindow& window) {
+void GameManager::drawProjectiles(sf::RenderWindow& window) const
+{
     for (auto& projectile : game->getPlayerProjectiles()) {
         projectile->draw(window);
     }
@@ -182,7 +187,8 @@ void GameManager::drawProjectiles(sf::RenderWindow& window) {
     }
 }
 
-void GameManager::updateProjectiles() {
+void GameManager::updateProjectiles() const
+{
     for (auto& projectile : game->getPlayerProjectiles()) {
         projectile->updatePosition();
     }
@@ -191,7 +197,8 @@ void GameManager::updateProjectiles() {
     }
 }
 
-void GameManager::drawBunkers(){
+void GameManager::drawBunkers() const
+{
     for (const auto& brick : game->getWall())
     {
         brick->draw(window);

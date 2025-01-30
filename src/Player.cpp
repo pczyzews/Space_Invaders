@@ -1,6 +1,6 @@
 #include "Player.h"
 #include <SFML/Graphics.hpp>
-
+#include <iostream>
 #include "PlayerProjectileFactory.h"
 
 
@@ -37,7 +37,7 @@ void Player::die()
     alive = false;
 }
 
-bool Player::isAlive()
+bool Player::isAlive() const
 {
     return alive;
 }
@@ -53,16 +53,22 @@ int Player::getLives() const {
     return lives;
 }
 
+
 std::shared_ptr<Projectile> Player::shoot()
 {
     if (shootClock.getElapsedTime().asSeconds() < shootCooldown) {
         return nullptr;
     }
-    PlayerProjectileFactory factory;
-    std::shared_ptr<Projectile> newProjectile = factory.createProjectile(
-        getPositionX() + getSizeX() / 2 - 5, getPositionY()
-    );
-    shootClock.restart();
-    return newProjectile;
+    try {
+        PlayerProjectileFactory factory;
+        std::shared_ptr<Projectile> newProjectile = factory.createProjectile(
+            getPositionX() + getSizeX() / 2 - 5, getPositionY()
+        );
+        shootClock.restart();
+        return newProjectile;
+    } catch (const std::exception& e) {
+        std::cerr << "Exception in Player::shoot: " << e.what() << std::endl;
+        return nullptr;
+    }
 }
 

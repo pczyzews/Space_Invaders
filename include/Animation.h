@@ -23,7 +23,7 @@ private:
 public:
     Animation(const sf::Texture& texture, int frameWidth, int frameHeight, int frameCount, float frameDuration, bool loop = true);
     ~Animation();
-    void setReference(std::shared_ptr<Entity>& x);
+    void setReference(std::shared_ptr<Entity>const& x);
     void setScale(float scaleX, float scaleY);
     void setLoop(bool shouldLoop);
     void play();
@@ -32,7 +32,7 @@ public:
     std::shared_ptr<Entity> getEntity();
 
     void update(float deltaTime);
-    void draw(sf::RenderWindow& window);
+    void draw(sf::RenderWindow& window) const;
 
     void setPosition(float x, float y);
 };

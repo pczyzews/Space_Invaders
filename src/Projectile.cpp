@@ -19,12 +19,12 @@ void Projectile::draw(sf::RenderWindow& window) {
 float Projectile::getPositionX() const { return *positionX; }
 float Projectile::getPositionY() const { return *positionY; }
 
-void Projectile::setPositionX(float x)
+void Projectile::setPositionX(float x) const
 {
     (*positionX) = (*positionX) + x;
 }
 
-void Projectile::setPositionY(float y)
+void Projectile::setPositionY(float y) const
 {
     (*positionY) = (*positionY) + y;
 }

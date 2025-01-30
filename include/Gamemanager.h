@@ -1,15 +1,14 @@
 #ifndef GAMEMANAGER_H
 #define GAMEMANAGER_H
 
-#include "Game.h"
-#include "Animation.h"
-#include "AnimManager.h"
-#include <thread>
 #include <chrono>
+#include "Game.h"
+#include "SFML/Graphics.hpp"
 
 class CollisionDetector;
-
+class AnimManager;
 class Player;
+class Animation;
 
 class GameManager {
 private:
@@ -18,7 +17,7 @@ private:
     float min_alien_position = 100;
     float max_alien_position = 660;
     bool check_army_movement_down = false;
-    float army_move_per_second = 1000;
+    float army_move_per_second = 700;
     bool alienArmyLockedHorizontal = false;
 
     sf::Font font;
@@ -39,18 +38,18 @@ private:
 public:
     GameManager(sf::RenderWindow& window, Game* g, AnimManager* animManager);
     ~GameManager();
-    void handleInput();
-    void drawBunkers();
+    void handleInput() const;
+    void drawBunkers() const;
     void movingAlienArmy(Game &game);
-    void calculateMaxPositions(float& min, float& max, Game& game);
+    static void calculateMaxPositions(float& min, float& max, Game& game);
     void startNewLevel();
     void drawLvlScore();
     void drawLives();
-    void removeProjectiles();
-    void updateProjectiles();
+    void removeProjectiles() const;
+    void updateProjectiles() const;
     void render();
     void updateCollisions();
-    void drawProjectiles(sf::RenderWindow& window);
+    void drawProjectiles(sf::RenderWindow& window) const;
 };
 
 #endif // GAMEMANAGER_H

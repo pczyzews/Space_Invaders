@@ -1,8 +1,9 @@
 #ifndef MENU_H
 #define MENU_H
 #include <SFML/Graphics.hpp>
-#include "Play.h"
-#include "Screen.h"
+#include "Gamestate.h"
+
+class Screen;
 
 class Menu : public Gamestate
 {

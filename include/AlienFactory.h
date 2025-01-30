@@ -8,7 +8,6 @@ class AlienFactory : public EntityFactory
 {
 public:
     std::shared_ptr<Entity> createEntity(float positionX, float positionY) override;
-    virtual ~AlienFactory() = default;
 };
 
 #endif // ALIENFACTORY_H

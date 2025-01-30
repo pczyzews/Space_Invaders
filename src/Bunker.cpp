@@ -7,7 +7,8 @@ Bunker::Bunker(float sizeX, float sizeY, float positionX, float positionY, std::
     updateTexture();
 }
 
-void Bunker::draw(sf::RenderWindow& window) {
+void Bunker::draw(sf::RenderWindow& window) const
+{
     window.draw(sprite);
 }
 

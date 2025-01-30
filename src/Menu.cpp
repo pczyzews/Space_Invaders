@@ -1,6 +1,7 @@
 #include "Menu.h"
-#include "Play.h"
 #include <iostream>
+#include "Screen.h"
+#include "Play.h"
 
 Menu::Menu(Screen* screen) : screen(screen)
 {

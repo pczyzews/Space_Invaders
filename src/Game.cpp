@@ -1,6 +1,10 @@
 #include "Game.h"
 #include "AlienFactory.h"
 #include "PlayerFactory.h"
+#include "Player.h"
+#include "Alien.h"
+#include "Bunker.h"
+#include <memory>
 #include <iostream>
 
 Game::Game()
@@ -14,7 +18,7 @@ Game::Game()
 Game::~Game()=default;
 
 
-std::vector<std::shared_ptr<Alien>>& Game::getAlienArmy()
+AlienVector& Game::getAlienArmy()
 {
     return alien_army;
 }
@@ -24,12 +28,12 @@ std::shared_ptr<Player>& Game::getPlayer()
     return player;
 }
 
-std::vector<std::shared_ptr<Projectile>>& Game::getAlienProjectiles()
+ProjectileVector& Game::getAlienProjectiles()
 {
     return alienProjectiles;
 }
 
-std::vector<std::shared_ptr<Projectile>>& Game::getPlayerProjectiles()
+ProjectileVector& Game::getPlayerProjectiles()
 {
     return playerProjectiles;
 }
@@ -67,13 +71,22 @@ void Game::createWall() {
 }
 
 
-int& Game::getLevel()
+int Game::getLevel() const
 {
     return level;
 }
-int& Game::getScore()
+int Game::getScore() const
 {
     return score;
+}
+
+void Game::increaseLevel(int inc)
+{
+    level += inc;
+}
+void Game::increaseScore(int inc)
+{
+    score += inc;
 }
 
 

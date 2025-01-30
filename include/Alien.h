@@ -1,10 +1,6 @@
 #ifndef ALIEN_H
 #define ALIEN_H
-#include <memory>
 #include "Entity.h"
-
-class Projectile;
-
 class Alien : public Entity
 {
     private:

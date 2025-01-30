@@ -22,7 +22,7 @@ Animation::Animation(const sf::Texture& texture, int frameWidth, int frameHeight
 Animation::~Animation() = default;
 
 
-void Animation::setReference(std::shared_ptr<Entity>& x) {
+void Animation::setReference(std::shared_ptr<Entity>const& x) {
     entity = x;
     positionX = x->getPositionXPtr();
     positionY = x->getPositionYPtr();
@@ -80,7 +80,8 @@ void Animation::update(float deltaTime) {
     }
 }
 
-void Animation::draw(sf::RenderWindow& window) {
+void Animation::draw(sf::RenderWindow& window) const
+{
     if (!playing) return;
     window.draw(sprite);
 }

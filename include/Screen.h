@@ -1,7 +1,8 @@
 #ifndef SCREEN_H
 #define SCREEN_H
+
 #include <SFML/Graphics.hpp>
-#include "Gamestate.h"
+class Gamestate;
 
 class Screen {
 private:
@@ -10,7 +11,7 @@ private:
 public:
     Screen(sf::RenderWindow* window);
     void changeState(Gamestate* gamestate);
-    void run(sf::Event &event);
+    void run(sf::Event &event) const;
 };
 
 #endif // SCREEN_H

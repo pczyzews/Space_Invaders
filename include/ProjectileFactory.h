@@ -1,8 +1,9 @@
 #ifndef PROJECTILEFACTORY_H
 #define PROJECTILEFACTORY_H
-
-#include "Projectile.h"
 #include <memory>
+
+class Projectile;
+
 
 class ProjectileFactory {
 public:

@@ -1,11 +1,8 @@
 #ifndef PLAYER_H
 #define PLAYER_H
-
 #include "Entity.h"
-#include "Projectile.h"
-#include "Animation.h"
-#include <vector>
-#include <memory>
+#include <SFML/System/Clock.hpp>
+
 
 using ProjectileVector = std::vector<std::shared_ptr<Projectile>>;
 
@@ -24,7 +21,7 @@ public:
     void MoveRight();
     void hit();
     void die();
-    bool isAlive();
+    bool isAlive() const;
     void reset(float x, float y);
     int getLives() const;
     std::shared_ptr<Projectile> shoot() override;
