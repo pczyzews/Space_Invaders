@@ -6,7 +6,7 @@ class Play : public Gamestate
 {
 public:
     Play();
-    void run(sf::Event& event, sf::RenderWindow* window) override;
+    std::shared_ptr<Gamestate> run(sf::Event& event, sf::RenderWindow* window) override;
 };
 
 #endif // PLAY_H

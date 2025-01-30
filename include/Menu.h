@@ -15,7 +15,7 @@ private:
 
 public:
     Menu(Screen* screen);
-    void run(sf::Event& event, sf::RenderWindow* window) override;
+    std::shared_ptr<Gamestate> run(sf::Event& event, sf::RenderWindow* window) override;
 };
 
 #endif // MENU_H

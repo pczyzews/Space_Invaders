@@ -1,6 +1,6 @@
 #ifndef SCREEN_H
 #define SCREEN_H
-
+#include <memory>
 #include <SFML/Graphics.hpp>
 class Gamestate;
 
@@ -10,8 +10,9 @@ private:
     Gamestate* state;
 public:
     Screen(sf::RenderWindow* window);
-    void changeState(Gamestate* gamestate);
-    void run(sf::Event &event) const;
+    void pushState(std::shared_ptr<Gamestate> newstate);
+    void popState();
+    void run(sf::Event &event);
 };
 
 #endif // SCREEN_H

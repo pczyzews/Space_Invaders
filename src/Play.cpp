@@ -1,11 +1,14 @@
+#include "Play.h"
+#include <iostream>
 #include "Game.h"
 #include "AnimManager.h"
 #include "Play.h"
+#include "GameOver.h"
 #include "Gamemanager.h"
 
 Play::Play() {}
 
-void Play::run(sf::Event& event,sf::RenderWindow* window)
+std::shared_ptr<Gamestate> Play::run(sf::Event& event, sf::RenderWindow* window)
 {
     Game game;
     AnimManager animationManager;
@@ -51,6 +54,10 @@ void Play::run(sf::Event& event,sf::RenderWindow* window)
         manager.updateProjectiles();
         manager.updateCollisions();
         manager.removeProjectiles();
+        if (!manager.playerStatus())
+        {
+            return std::make_shared<GameOver>();
+        }
 
         window->display();
     }

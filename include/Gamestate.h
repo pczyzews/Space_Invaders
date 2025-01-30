@@ -1,10 +1,12 @@
 #ifndef GAMESTATE_H
 #define GAMESTATE_H
 #include <SFML/Graphics.hpp>
+#include <memory>
 
-class Gamestate{
+class Gamestate {
 public:
-    virtual void run(sf::Event &event, sf::RenderWindow* window) = 0;
+    virtual ~Gamestate() = default;
+    virtual std::shared_ptr<Gamestate> run(sf::Event &event, sf::RenderWindow* window) = 0;
 };
 
 #endif // GAMESTATE_H
