@@ -5,6 +5,7 @@
 #include "Gamemanager.h"
 #include "AnimManager.h"
 #include "Alien.h"
+#include "Bunker.h"
 #include <vector>
 #include <thread>
 
@@ -32,7 +33,7 @@ int main() {
     animationManager.addPlayerAnimation(&test);
     animationManager.addAlienAnimations(&game);
 
-    manager.displayStartScreen(window);
+    //manager.displayStartScreen(window);
 
     sf::Clock clock;
 
@@ -67,6 +68,10 @@ int main() {
             {
                 //window.draw(alien->getRect());
                 alien->updateProjectile(window);
+            }
+            for (const auto& brick : game.getWall())
+            {
+                brick->draw(window);
             }
             manager.checkForCollision(game, test);
         window.display();

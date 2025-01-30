@@ -82,7 +82,7 @@ void GameManager::movingAlienArmy(Game& game) {
     }
 }
 
-void GameManager::checkForCollision(Game& game,Player& player)
+void GameManager::checkForCollision(Game& game, Player& player)
 {
     for (auto alienIt = game.getAlienArmy().begin(); alienIt != game.getAlienArmy().end(); ) {
         bool alienRemoved = false;
@@ -92,7 +92,7 @@ void GameManager::checkForCollision(Game& game,Player& player)
                 (*alienIt)->getPositionY() + (*alienIt)->getSizeY() >= (*projectileIt)->getPositionY() &&
                 (*alienIt)->getPositionY() <= (*projectileIt)->getPositionY() + (*projectileIt)->getSizeY())
             {
-                animationManager->collisionAnimation((*alienIt)->getPositionX(), (*alienIt)->getPositionY(), (*alienIt)->getSizeX(),(*alienIt)->getSizeY());
+                animationManager->collisionAnimation((*alienIt)->getPositionX(), (*alienIt)->getPositionY(), (*alienIt)->getSizeX(), (*alienIt)->getSizeY());
                 animationManager->checkRemove(alienIt->get());
                 projectileIt = player.getProjectiles().erase(projectileIt);
                 alienIt = game.getAlienArmy().erase(alienIt);
@@ -109,6 +109,7 @@ void GameManager::checkForCollision(Game& game,Player& player)
             ++alienIt;
         }
     }
+
     for (auto alienIt = game.getAlienArmy().begin(); alienIt != game.getAlienArmy().end();)
     {
         if ((*alienIt)->getHasShot())
@@ -118,21 +119,77 @@ void GameManager::checkForCollision(Game& game,Player& player)
                 (*alienIt)->getProjectile()->getPositionY() + (*alienIt)->getProjectile()->getSizeY() >= player.getPositionY() &&
                 (*alienIt)->getProjectile()->getPositionY() <= player.getPositionY() + player.getSizeY())
             {
-                animationManager->collisionAnimation(player.getPositionX(), player.getPositionY(), player.getSizeX(),player.getSizeY());
+                animationManager->collisionAnimation(player.getPositionX(), player.getPositionY(), player.getSizeX(), player.getSizeY());
                 (*alienIt)->projectileReset();
                 player.hit();
             }
         }
         ++alienIt;
     }
+
+    for (auto projectileIt = player.getProjectiles().begin(); projectileIt != player.getProjectiles().end(); ) {
+        bool projectileRemoved = false;
+        for (auto wallIt = game.getWall().begin(); wallIt != game.getWall().end(); ) {
+            if ((*wallIt)->getPositionX() + (*wallIt)->getSizeX() >= (*projectileIt)->getPositionX() &&
+                (*wallIt)->getPositionX() <= (*projectileIt)->getPositionX() + (*projectileIt)->getSizeX() &&
+                (*wallIt)->getPositionY() + (*wallIt)->getSizeY() >= (*projectileIt)->getPositionY() &&
+                (*wallIt)->getPositionY() <= (*projectileIt)->getPositionY() + (*projectileIt)->getSizeY())
+            {
+                (*wallIt)->hit();
+
+                if ((*wallIt)->isDestroyed()) {
+                    wallIt = game.getWall().erase(wallIt);
+                } else {
+                    ++wallIt;
+                }
+                projectileIt = player.getProjectiles().erase(projectileIt);
+                projectileRemoved = true;
+                break;
+            }
+            else {
+                ++wallIt;
+            }
+        }
+        if (!projectileRemoved) {
+            ++projectileIt;
+        }
+    }
+
+    for (auto alienIt = game.getAlienArmy().begin(); alienIt != game.getAlienArmy().end(); ++alienIt) {
+        if ((*alienIt)->getHasShot()) {
+            auto projectile = (*alienIt)->getProjectile();
+            for (auto wallIt = game.getWall().begin(); wallIt != game.getWall().end(); ) {
+                if ((*wallIt)->getPositionX() + (*wallIt)->getSizeX() >= projectile->getPositionX() &&
+                    (*wallIt)->getPositionX() <= projectile->getPositionX() + projectile->getSizeX() &&
+                    (*wallIt)->getPositionY() + (*wallIt)->getSizeY() >= projectile->getPositionY() &&
+                    (*wallIt)->getPositionY() <= projectile->getPositionY() + projectile->getSizeY())
+                {
+                    (*wallIt)->hit();
+
+                    if ((*wallIt)->isDestroyed()) {
+                        wallIt = game.getWall().erase(wallIt);
+                    } else {
+                        ++wallIt;
+                    }
+                    (*alienIt)->projectileReset();
+                    break;
+                }
+                else {
+                    ++wallIt;
+                }
+            }
+        }
+    }
 }
 
 void GameManager::startNewLevel() {
+    animationManager->clearAnimations();
+    game->clearWall();
     game->level += 1;
     game->createArmy();
+    game->createWall();
     army_move_per_second = 1000;
 
-    animationManager->clearAnimations();
 
     animationManager->loadTextures(
         animationManager->getPlayerTexture(),

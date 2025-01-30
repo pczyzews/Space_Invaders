@@ -34,7 +34,9 @@ set(SOURCE_FILES
         src/animation.cpp
         include/animation.h
         src/AnimManager.cpp
-        include/AnimManager.h)
+        include/AnimManager.h
+        src/Brick.cpp
+        include/Brick.h)
 
 add_executable(Project ${SOURCE_FILES})
 

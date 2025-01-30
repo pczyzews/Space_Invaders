@@ -21,7 +21,7 @@ void Player::MoveRight() {
 }
 
 void Player::Shot() {
-    if (clock.getElapsedTime().asSeconds() >= 0.1f) {
+    if (clock.getElapsedTime().asSeconds() >= 0.05f) {
         projectiles.push_back(std::make_shared<Projectile>(10.0, 20.0, getPositionX() + getSizeX() / 2 - 5, getPositionY(), true));
         clock.restart();
         std::cout << "Current number of projectiles: " << projectiles.size() << std::endl;
