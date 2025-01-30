@@ -24,7 +24,6 @@ void Play::run(sf::Event& event,sf::RenderWindow* window)
     animationManager.addPlayerAnimation(game.getPlayer());
     animationManager.addAlienAnimations(&game);
 
-    manager.displayStartScreen((*window));
 
     sf::Clock clock;
 

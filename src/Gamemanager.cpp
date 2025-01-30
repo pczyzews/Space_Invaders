@@ -68,51 +68,58 @@ void GameManager::calculateMaxPositions(float& min, float& max, Game& game) {
     }
 }
 
-void GameManager::movingAlienArmy(Game& game) {
+void GameManager::movingAlienArmy(Game& game)
+{
     auto currentTime = std::chrono::steady_clock::now();
-    if (std::chrono::duration_cast<std::chrono::milliseconds>(currentTime - lastMoveTime).count() >= army_move_per_second) {
-        if ((min_alien_position <= 10 || max_alien_position >= 790) && check_army_movement_down == false) {
-            for (const auto& alien : game.getAlienArmy()) {
-                alien->updatePosition(0, 10);
-                std::random_device rd;
-                std::mt19937 gen(rd());
-                std::uniform_real_distribution<> dis(0.0, 1.0);
+    auto msSinceLastMove = std::chrono::duration_cast<std::chrono::milliseconds>(currentTime - lastMoveTime).count();
+    if (msSinceLastMove < army_move_per_second)
+        return;
 
-                double randomValue = dis(gen);
-                double shooting_probability = game.getLevel() * 0.05;
-                if (randomValue < shooting_probability) {
-                    game.getAlienProjectiles().push_back(alien->shoot());
-                }
+    float bottomMostY = 0.f;
+    for (auto& alien : game.getAlienArmy()) {
+        float alienBottom = alien->getPositionY() + 30;
+        if (alienBottom > bottomMostY) {
+            bottomMostY = alienBottom;
+        }
+    }
+
+    calculateMaxPositions(min_alien_position, max_alien_position, game);
+
+    bool boundaryReached = (min_alien_position <= 10 || max_alien_position >= 790);
+
+    if (boundaryReached) {
+        if (bottomMostY < 400) {
+            for (auto& alien : game.getAlienArmy()) {
+                alien->updatePosition(0, 10);
             }
-            alien_step = -alien_step;
-            check_army_movement_down = true;
             if (army_move_per_second >= 300) {
                 army_move_per_second -= 100;
             }
-        } else {
-            for (const auto& alien : game.getAlienArmy()) {
-                alien->updatePosition(alien_step, 0);
-
-                std::random_device rd;
-                std::mt19937 gen(rd());
-                std::uniform_real_distribution<> dis(0.0, 1.0);
-                double randomValue = dis(gen);
-                double shooting_probability = game.getLevel() * 0.05;
-                if (randomValue < shooting_probability) {
-                    game.getAlienProjectiles().push_back(alien->shoot());
-                }
-            }
-            check_army_movement_down = false;
         }
-
-        calculateMaxPositions(min_alien_position, max_alien_position, game);
-        lastMoveTime = currentTime;
+        alien_step = -alien_step;
     }
+
+    for (auto& alien : game.getAlienArmy()) {
+        alien->updatePosition(alien_step, 0);
+
+        std::random_device rd;
+        std::mt19937 gen(rd());
+        std::uniform_real_distribution<> dis(0.0, 1.0);
+        double randomValue = dis(gen);
+        double shooting_probability = static_cast<float>(game.getLevel()) / 100;
+        if (randomValue < shooting_probability) {
+            game.getAlienProjectiles().push_back(alien->shoot());
+        }
+    }
+
+    lastMoveTime = currentTime;
 }
 
 void GameManager::startNewLevel() {
     game->getLevel() += 1;
     game->createArmy();
+    game->clearWall();
+    game->createWall();
     army_move_per_second = 1000;
 
     animationManager->clearAnimations();
@@ -184,8 +191,16 @@ void GameManager::updateProjectiles() {
     }
 }
 
+void GameManager::drawBunkers(){
+    for (const auto& brick : game->getWall())
+    {
+        brick->draw(window);
+    }
+}
+
 void GameManager::render() {
     drawLvlScore();
+    drawBunkers();
     drawLives();
 }
 void GameManager::updateCollisions() {
@@ -195,52 +210,4 @@ void GameManager::updateCollisions() {
     }
 }
 
-void GameManager::displayStartScreen(sf::RenderWindow& window) {
-    sf::Font font;
-    if (!font.loadFromFile("../textures/slkscr.ttf")) {
-        std::cerr << "Cannot load font!" << std::endl;
-        return;
-    }
 
-    sf::Text title;
-    title.setFont(font);
-    title.setString("Space Invaders");
-    title.setCharacterSize(60);
-    title.setFillColor(sf::Color::White);
-    title.setPosition(120, 250);
-
-    sf::Text startText;
-    startText.setFont(font);
-    startText.setString("Press ENTER to Start");
-    startText.setCharacterSize(24);
-    startText.setFillColor(sf::Color::White);
-    startText.setPosition(240, 500);
-
-    sf::Clock blinkClock;
-    bool showText = true;
-    bool gameStarted = false;
-
-    while (window.isOpen() && !gameStarted) {
-        sf::Event event;
-        while (window.pollEvent(event)) {
-            if (event.type == sf::Event::Closed) {
-                window.close();
-            }
-            if (event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::Enter) {
-                gameStarted = true;
-            }
-        }
-
-        if (blinkClock.getElapsedTime().asSeconds() > 0.5f) {
-            showText = !showText;
-            blinkClock.restart();
-        }
-
-        window.clear(sf::Color::Black);
-        window.draw(title);
-        if (showText) {
-            window.draw(startText);
-        }
-        window.display();
-    }
-}

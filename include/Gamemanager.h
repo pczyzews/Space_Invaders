@@ -19,6 +19,7 @@ private:
     float max_alien_position = 660;
     bool check_army_movement_down = false;
     float army_move_per_second = 1000;
+    bool alienArmyLockedHorizontal = false;
 
     sf::Font font;
     sf::Text scoreText;
@@ -39,6 +40,7 @@ public:
     GameManager(sf::RenderWindow& window, Game* g, AnimManager* animManager);
     ~GameManager();
     void handleInput();
+    void drawBunkers();
     void movingAlienArmy(Game &game);
     void calculateMaxPositions(float& min, float& max, Game& game);
     void startNewLevel();
@@ -48,7 +50,6 @@ public:
     void updateProjectiles();
     void render();
     void updateCollisions();
-    void displayStartScreen(sf::RenderWindow& window);
     void drawProjectiles(sf::RenderWindow& window);
 };
 

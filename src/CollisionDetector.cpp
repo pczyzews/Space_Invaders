@@ -69,4 +69,56 @@ void CollisionDetector::checkForCollision(Game& game)
             ++alienProjectileIt;
         }
     }
+
+
+for (auto projectileIt = game.getPlayerProjectiles().begin(); projectileIt != game.getPlayerProjectiles().end(); ) {
+        bool projectileRemoved = false;
+        for (auto wallIt = game.getWall().begin(); wallIt != game.getWall().end(); ) {
+            if ((*wallIt)->getPositionX() + (*wallIt)->getSizeX() >= (*projectileIt)->getPositionX() &&
+                (*wallIt)->getPositionX() <= (*projectileIt)->getPositionX() + (*projectileIt)->getSizeX() &&
+                (*wallIt)->getPositionY() + (*wallIt)->getSizeY() >= (*projectileIt)->getPositionY() &&
+                (*wallIt)->getPositionY() <= (*projectileIt)->getPositionY() + (*projectileIt)->getSizeY())
+            {
+                (*wallIt)->hit();
+                if ((*wallIt)->isDestroyed()) {
+                    wallIt = game.getWall().erase(wallIt);
+                } else {
+                    ++wallIt;
+                }
+                projectileIt = game.getPlayerProjectiles().erase(projectileIt);
+                projectileRemoved = true;
+                break;
+            }
+            ++wallIt;
+        }
+        if (!projectileRemoved) {
+            ++projectileIt;
+        }
+    }
+    for (auto projectileIt = game.getAlienProjectiles().begin(); projectileIt != game.getAlienProjectiles().end(); ) {
+        bool projectileRemoved = false;
+        for (auto wallIt = game.getWall().begin(); wallIt != game.getWall().end(); ) {
+            if ((*wallIt)->getPositionX() + (*wallIt)->getSizeX() >= (*projectileIt)->getPositionX() &&
+                (*wallIt)->getPositionX() <= (*projectileIt)->getPositionX() + (*projectileIt)->getSizeX() &&
+                (*wallIt)->getPositionY() + (*wallIt)->getSizeY() >= (*projectileIt)->getPositionY() &&
+                (*wallIt)->getPositionY() <= (*projectileIt)->getPositionY() + (*projectileIt)->getSizeY())
+            {
+                (*wallIt)->hit();
+                if ((*wallIt)->isDestroyed()) {
+                    wallIt = game.getWall().erase(wallIt);
+                } else {
+                    ++wallIt;
+                }
+                projectileIt = game.getAlienProjectiles().erase(projectileIt);
+                projectileRemoved = true;
+                break;
+            }
+            ++wallIt;
+        }
+        if (!projectileRemoved) {
+            ++projectileIt;
+        }
+    }
+
+
 }

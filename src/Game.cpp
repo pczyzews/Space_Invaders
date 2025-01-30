@@ -5,7 +5,10 @@
 
 Game::Game()
 {
+    brickTexture = std::make_shared<sf::Texture>();
+    brickTexture->loadFromFile("../textures/brick5.png");
     startGame();
+    createWall();
 }
 
 Game::~Game()=default;
@@ -47,6 +50,22 @@ void Game::createArmy() {
     std::cout << "Alien size:" << alien_army.size() << std::endl;
 }
 
+void Game::createWall() {
+    for (int k = 0; k < 4; k++) {
+        for (int j = 0; j < 3; j++) {
+            for (int i = 0; i < 5; i++) {
+                if (j == 0 && (i == 1 || i == 2 || i == 3)) {
+                    wall.push_back(std::make_shared<Bunker>(20, 20, 40 + 207 * k + 20 * i, 480 + 20 * j, brickTexture));
+                } else if (j == 1) {
+                    wall.push_back(std::make_shared<Bunker>(20, 20, 40 + 207 * k + 20 * i, 480 + 20 * j, brickTexture));
+                } else if (j == 2 && (i == 0 || i == 4)) {
+                    wall.push_back(std::make_shared<Bunker>(20, 20, 40 + 207 * k + 20 * i, 480 + 20 * j, brickTexture));
+                }
+            }
+        }
+    }
+}
+
 
 int& Game::getLevel()
 {
@@ -63,6 +82,14 @@ void Game::startGame()
     PlayerFactory player_factory;
     player = std::dynamic_pointer_cast<Player>(player_factory.createEntity(376, 580));
     createArmy();
+}
+
+std::vector<std::shared_ptr<Bunker>>& Game::getWall()
+{
+    return wall;
+}
+void Game::clearWall() {
+    wall.clear();
 }
 
 
