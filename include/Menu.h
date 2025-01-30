@@ -1,11 +1,10 @@
 #ifndef MENU_H
 #define MENU_H
 #include <SFML/Graphics.hpp>
-#include "Play.h"
 #include "Screen.h"
 
-class Menu : public Gamestate
-{
+
+class Menu : public Gamestate {
 private:
     sf::Font font;
     sf::Text startText;
@@ -14,7 +13,7 @@ private:
 
 public:
     Menu(Screen* screen);
-    void run(sf::Event& event, sf::RenderWindow* window) override;
+    std::shared_ptr<Gamestate> run(sf::Event& event, sf::RenderWindow* window) override;
 };
 
 #endif // MENU_H

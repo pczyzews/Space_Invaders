@@ -205,9 +205,14 @@ void GameManager::render() {
 }
 void GameManager::updateCollisions() {
     collisionDetector->checkForCollision(*game);
-    if (game->getAlienArmy().empty()) {
+    if (game->getAlienArmy().empty())
+    {
         startNewLevel();
     }
 }
 
+bool GameManager::playerStatus()
+{
+    return game->getPlayer()->isAlive();
+}
 

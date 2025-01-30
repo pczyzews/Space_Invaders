@@ -43,6 +43,7 @@ public:
     ~GameManager();
     void handleInput();
     void drawBunkers();
+    bool playerStatus();
     void movingAlienArmy(Game &game);
     void calculateMaxPositions(float& min, float& max, Game& game);
     void startNewLevel();

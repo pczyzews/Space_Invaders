@@ -3,10 +3,9 @@
 #include <SFML/Graphics.hpp>
 #include "Play.h"
 #include "Screen.h"
+#include <memory>
 
-
-class GameOver : public Gamestate
-{
+class GameOver : public Gamestate {
 private:
     sf::Font font;
     sf::Text overText;
@@ -14,10 +13,8 @@ private:
     Screen* screen;
 
 public:
-    GameOver(Screen* screen);
-    void run(sf::Event& event, sf::RenderWindow* window) override;
+    GameOver();
+    std::shared_ptr<Gamestate> run(sf::Event& event, sf::RenderWindow* window) override;
 };
 
-
-
-#endif //GAMEOVER_H
+#endif // GAMEOVER_H
