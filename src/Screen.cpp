@@ -1,9 +1,11 @@
 #include "Screen.h"
+
+#include "GameOver.h"
 #include "Menu.h"
 
 Screen::Screen(sf::RenderWindow* window) : window(window)
 {
-    this->state = new Menu(this);
+    this->state = new GameOver(this);
 }
 
 void Screen::run(sf::Event& event)

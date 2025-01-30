@@ -36,6 +36,8 @@ private:
 
     std::vector<std::shared_ptr<Animation>> animations;
 
+    Player* player;
+
 public:
     GameManager(sf::RenderWindow& window, Game* g, AnimManager* animManager);
     ~GameManager();

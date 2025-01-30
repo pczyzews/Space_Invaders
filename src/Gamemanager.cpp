@@ -26,7 +26,7 @@ GameManager::GameManager(sf::RenderWindow& window, Game* g, AnimManager* animMan
     levelText.setFont(font);
     levelText.setCharacterSize(30);
     levelText.setFillColor(sf::Color::White);
-    levelText.setPosition(650.f, 10.f);
+    levelText.setPosition(640.f, 10.f);
 
     if (!heartTexture.loadFromFile("../textures/heart2.png")) {
         std::cerr << "Failed to load heart texture!" << std::endl;
