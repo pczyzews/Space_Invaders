@@ -1,8 +1,8 @@
 #ifndef GAMEOVER_H
 #define GAMEOVER_H
 #include <SFML/Graphics.hpp>
-#include "Play.h"
-#include "Screen.h"
+#include "Gamestate.h"
+class Screen;
 #include <memory>
 
 class GameOver : public Gamestate {

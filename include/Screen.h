@@ -1,13 +1,15 @@
 #ifndef SCREEN_H
 #define SCREEN_H
-#include <memory>
 #include <SFML/Graphics.hpp>
-class Gamestate;
+#include "Gamestate.h"
+#include <stack>
+#include <memory>
 
 class Screen {
 private:
     sf::RenderWindow* window;
-    Gamestate* state;
+    std::stack<std::shared_ptr<Gamestate>> stateStack;
+
 public:
     Screen(sf::RenderWindow* window);
     void pushState(std::shared_ptr<Gamestate> newstate);

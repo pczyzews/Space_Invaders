@@ -2,7 +2,6 @@
 #include <iostream>
 #include "Game.h"
 #include "AnimManager.h"
-#include "Play.h"
 #include "GameOver.h"
 #include "Gamemanager.h"
 

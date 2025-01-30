@@ -1,7 +1,6 @@
 #include "Menu.h"
-#include <iostream>
-#include "Screen.h"
 #include "Play.h"
+#include <iostream>
 
 Menu::Menu(Screen* screen) : screen(screen) {
     if (!font.loadFromFile("../textures/slkscr.ttf")) {

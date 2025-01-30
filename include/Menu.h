@@ -5,8 +5,7 @@
 
 class Screen;
 
-class Menu : public Gamestate
-{
+class Menu : public Gamestate {
 private:
     sf::Font font;
     sf::Text startText;

@@ -45,7 +45,6 @@ set(SOURCE_FILES
         src/Menu.cpp
         include/Bunker.h
         include/Entity.h
-        include/Filemanager.h
         include/Game.h
         include/Gamemanager.h
         include/Player.h
@@ -53,7 +52,6 @@ set(SOURCE_FILES
         src/Alien.cpp
         src/Bunker.cpp
         src/Entity.cpp
-        src/Filemanager.cpp
         src/Game.cpp
         src/Gamemanager.cpp
         src/Player.cpp
