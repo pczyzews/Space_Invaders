@@ -1,11 +1,13 @@
 #ifndef GAMEMANAGER_H
 #define GAMEMANAGER_H
+
 #include "Game.h"
 #include "Animation.h"
 #include "AnimManager.h"
 #include <thread>
 #include <chrono>
 
+class CollisionDetector;
 
 class Player;
 
@@ -24,25 +26,30 @@ private:
     sf::Texture heartTexture;
     sf::Sprite heartSprite;
     std::chrono::time_point<std::chrono::steady_clock> lastMoveTime;
-    Player* player;
     Game* game;
     AnimManager* animationManager;
+
+    CollisionDetector* collisionDetector;
+
     sf::RenderWindow& window;
 
     std::vector<std::shared_ptr<Animation>> animations;
 
 public:
-    GameManager(sf::RenderWindow& window, Player* p, Game* g, AnimManager* animManager);
+    GameManager(sf::RenderWindow& window, Game* g, AnimManager* animManager);
     ~GameManager();
     void handleInput();
     void movingAlienArmy(Game &game);
-    void CalculateMaxPositions(float& min, float& max, Game& game);
-    void checkForCollision(Game& game, Player& player);
+    void calculateMaxPositions(float& min, float& max, Game& game);
     void startNewLevel();
     void drawLvlScore();
     void drawLives();
+    void removeProjectiles();
+    void updateProjectiles();
     void render();
+    void updateCollisions();
     void displayStartScreen(sf::RenderWindow& window);
+    void drawProjectiles(sf::RenderWindow& window);
 };
 
 #endif // GAMEMANAGER_H

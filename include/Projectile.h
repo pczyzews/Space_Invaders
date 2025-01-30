@@ -1,16 +1,30 @@
 #ifndef PROJECTILE_H
 #define PROJECTILE_H
-#include "Entity.h"
+#include <memory>
+#include <SFML/Graphics.hpp>
 
-class Projectile : public Entity
+class Projectile
 {
 private:
-    bool direction;
-
+    float sizeX = 10;
+    float sizeY = 20;
+    std::shared_ptr<float> positionX;
+    std::shared_ptr<float> positionY;
+    sf::Texture texture;
+    sf::RectangleShape rect;
 public:
-    Projectile(float sizeX, float sizeY, float positionX, float positionY, bool direction);
-    ~Projectile();
+    Projectile(float positionX, float positionY);
+    virtual ~Projectile();
     void draw(sf::RenderWindow& window);
+    virtual void updatePosition() = 0;
+    void setPositionX(float x);
+    void setPositionY(float y);
+    float getPositionX() const;
+    float getPositionY() const;
+    float getSizeX() const;
+    float getSizeY() const;
+    void setTexture(const std::string& texturePath);
+    sf::RectangleShape& getRect();
 };
 
 #endif //PROJECTILE_H

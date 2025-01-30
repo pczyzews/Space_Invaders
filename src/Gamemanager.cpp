@@ -1,13 +1,19 @@
-#include "Gamemanager.h"
-#include <SFML/Graphics.hpp>
+#include "GameManager.h"
 #include "Player.h"
+#include "AlienProjectile.h"
+#include "CollisionDetector.h"
+#include <random>
+#include <SFML/Graphics.hpp>
 #include <chrono>
 #include <iostream>
 
-GameManager::GameManager(sf::RenderWindow& window ,Player* p, Game* g, AnimManager* animManager)
-: window(window), player(p), game(g), animationManager(animManager) {
+GameManager::GameManager(sf::RenderWindow& window, Game* g, AnimManager* animManager)
+    : window(window), game(g), animationManager(animManager)
+{
     isRunning = true;
     lastMoveTime = std::chrono::steady_clock::now();
+
+    collisionDetector = new CollisionDetector(animationManager);
 
     if (!font.loadFromFile("../textures/slkscr.ttf")) {
         std::cerr << "Failed to load font!" << std::endl;
@@ -30,18 +36,26 @@ GameManager::GameManager(sf::RenderWindow& window ,Player* p, Game* g, AnimManag
 
 GameManager::~GameManager() {
     isRunning = false;
+    delete collisionDetector;
+    collisionDetector = nullptr;
 }
 
 void GameManager::handleInput() {
-    if(isRunning){
-        if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right)) player->MoveRight();
-        if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left)) player->MoveLeft();
-        if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space)) player->Shot();
-
+    if (isRunning) {
+        if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right))
+            game->getPlayer()->MoveRight();
+        if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left))
+            game->getPlayer()->MoveLeft();
+        if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space)) {
+            std::shared_ptr<Projectile> newProjectile = game->getPlayer()->shoot();
+            if (newProjectile) {
+                game->getPlayerProjectiles().push_back(newProjectile);
+            }
+        }
     }
 }
 
-void GameManager::CalculateMaxPositions(float& min, float& max, Game& game) {
+void GameManager::calculateMaxPositions(float& min, float& max, Game& game) {
     min = 9999;
     max = -1;
     for (const auto& alien : game.getAlienArmy()) {
@@ -59,9 +73,16 @@ void GameManager::movingAlienArmy(Game& game) {
     if (std::chrono::duration_cast<std::chrono::milliseconds>(currentTime - lastMoveTime).count() >= army_move_per_second) {
         if ((min_alien_position <= 10 || max_alien_position >= 790) && check_army_movement_down == false) {
             for (const auto& alien : game.getAlienArmy()) {
-                alien->getRect().move(0, 10);
                 alien->updatePosition(0, 10);
-                alien->alienShot(window);
+                std::random_device rd;
+                std::mt19937 gen(rd());
+                std::uniform_real_distribution<> dis(0.0, 1.0);
+
+                double randomValue = dis(gen);
+                double shooting_probability = game.getLevel() * 0.05;
+                if (randomValue < shooting_probability) {
+                    game.getAlienProjectiles().push_back(alien->shoot());
+                }
             }
             alien_step = -alien_step;
             check_army_movement_down = true;
@@ -70,60 +91,22 @@ void GameManager::movingAlienArmy(Game& game) {
             }
         } else {
             for (const auto& alien : game.getAlienArmy()) {
-                alien->getRect().move(alien_step, 0);
                 alien->updatePosition(alien_step, 0);
-                alien->alienShot(window);
+
+                std::random_device rd;
+                std::mt19937 gen(rd());
+                std::uniform_real_distribution<> dis(0.0, 1.0);
+                double randomValue = dis(gen);
+                double shooting_probability = game.getLevel() * 0.05;
+                if (randomValue < shooting_probability) {
+                    game.getAlienProjectiles().push_back(alien->shoot());
+                }
             }
             check_army_movement_down = false;
         }
 
-        CalculateMaxPositions(min_alien_position, max_alien_position, game);
+        calculateMaxPositions(min_alien_position, max_alien_position, game);
         lastMoveTime = currentTime;
-    }
-}
-
-void GameManager::checkForCollision(Game& game,Player& player)
-{
-    for (auto alienIt = game.getAlienArmy().begin(); alienIt != game.getAlienArmy().end(); ) {
-        bool alienRemoved = false;
-        for (auto projectileIt = player.getProjectiles().begin(); projectileIt != player.getProjectiles().end(); ) {
-            if ((*alienIt)->getPositionX() + (*alienIt)->getSizeX() >= (*projectileIt)->getPositionX() &&
-                (*alienIt)->getPositionX() <= (*projectileIt)->getPositionX() + (*projectileIt)->getSizeX() &&
-                (*alienIt)->getPositionY() + (*alienIt)->getSizeY() >= (*projectileIt)->getPositionY() &&
-                (*alienIt)->getPositionY() <= (*projectileIt)->getPositionY() + (*projectileIt)->getSizeY())
-            {
-                animationManager->collisionAnimation((*alienIt)->getPositionX(), (*alienIt)->getPositionY(), (*alienIt)->getSizeX(),(*alienIt)->getSizeY());
-                animationManager->checkRemove(alienIt->get());
-                projectileIt = player.getProjectiles().erase(projectileIt);
-                alienIt = game.getAlienArmy().erase(alienIt);
-                alienRemoved = true;
-                game.getScore() += 10;
-                std::cout << "SCORE: " << game.getScore() << std::endl;
-                std::cout << "Liczba alienów: " << game.getAlienArmy().size() << std::endl;
-                if (game.getAlienArmy().empty()) startNewLevel();
-                break;
-            }
-            ++projectileIt;
-        }
-        if (!alienRemoved) {
-            ++alienIt;
-        }
-    }
-    for (auto alienIt = game.getAlienArmy().begin(); alienIt != game.getAlienArmy().end();)
-    {
-        if ((*alienIt)->getHasShot())
-        {
-            if ((*alienIt)->getProjectile()->getPositionX() + (*alienIt)->getProjectile()->getSizeX() >= player.getPositionX() &&
-                (*alienIt)->getProjectile()->getPositionX() <= player.getPositionX() + player.getSizeX() &&
-                (*alienIt)->getProjectile()->getPositionY() + (*alienIt)->getProjectile()->getSizeY() >= player.getPositionY() &&
-                (*alienIt)->getProjectile()->getPositionY() <= player.getPositionY() + player.getSizeY())
-            {
-                animationManager->collisionAnimation(player.getPositionX(), player.getPositionY(), player.getSizeX(),player.getSizeY());
-                (*alienIt)->projectileReset();
-                player.hit();
-            }
-        }
-        ++alienIt;
     }
 }
 
@@ -139,13 +122,33 @@ void GameManager::startNewLevel() {
         animationManager->getAlienTexture1(),
         animationManager->getAlienTexture2(),
         animationManager->getAlienTexture3(),
-         animationManager->getBoomTexture());
+        animationManager->getBoomTexture()
+    );
 
     animationManager->addAlienAnimations(game);
-    animationManager->addPlayerAnimation(player);
+    animationManager->addPlayerAnimation(game->getPlayer());
 
-    player->reset(400.f - player->getSizeX() / 2, 580.f);
+    game->getPlayer()->reset(400.f - game->getPlayer()->getSizeX() / 2, 580.f);
+}
 
+void GameManager::removeProjectiles() {
+    auto& alienProjectiles = game->getAlienProjectiles();
+    for (auto it = alienProjectiles.begin(); it != alienProjectiles.end(); ) {
+        if ((*it)->getPositionY() > 700) {
+            it = alienProjectiles.erase(it);
+        } else {
+            ++it;
+        }
+    }
+
+    auto& playerProjectiles = game->getPlayerProjectiles();
+    for (auto it = playerProjectiles.begin(); it != playerProjectiles.end(); ) {
+        if ((*it)->getPositionY() < 0) {
+            it = playerProjectiles.erase(it);
+        } else {
+            ++it;
+        }
+    }
 }
 
 void GameManager::drawLvlScore() {
@@ -157,9 +160,27 @@ void GameManager::drawLvlScore() {
 }
 
 void GameManager::drawLives() {
-    for (int i = 0; i < player->getLives(); ++i) {
+    for (int i = 0; i < game->getPlayer()->getLives(); ++i) {
         heartSprite.setPosition(20.f + i * 50, 660);
         window.draw(heartSprite);
+    }
+}
+
+void GameManager::drawProjectiles(sf::RenderWindow& window) {
+    for (auto& projectile : game->getPlayerProjectiles()) {
+        projectile->draw(window);
+    }
+    for (auto& projectile : game->getAlienProjectiles()) {
+        projectile->draw(window);
+    }
+}
+
+void GameManager::updateProjectiles() {
+    for (auto& projectile : game->getPlayerProjectiles()) {
+        projectile->updatePosition();
+    }
+    for (auto& projectile : game->getAlienProjectiles()) {
+        projectile->updatePosition();
     }
 }
 
@@ -167,12 +188,17 @@ void GameManager::render() {
     drawLvlScore();
     drawLives();
 }
-
+void GameManager::updateCollisions() {
+    collisionDetector->checkForCollision(*game);
+    if (game->getAlienArmy().empty()) {
+        startNewLevel();
+    }
+}
 
 void GameManager::displayStartScreen(sf::RenderWindow& window) {
     sf::Font font;
     if (!font.loadFromFile("../textures/slkscr.ttf")) {
-        std::cerr << "Nie można załadować czcionki!" << std::endl;
+        std::cerr << "Cannot load font!" << std::endl;
         return;
     }
 

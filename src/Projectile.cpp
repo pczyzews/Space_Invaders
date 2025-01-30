@@ -1,16 +1,45 @@
 #include "Projectile.h"
 #include <iostream>
 
-Projectile::Projectile(float sizeX, float sizeY, float positionX, float positionY, bool direction) : Entity(sizeX, sizeY, positionX, positionY), direction(direction)
+Projectile::Projectile(float positionX, float positionY)
+: positionX(std::make_shared<float>(positionX)),
+  positionY(std::make_shared<float>(positionY))
+
 {
-    if (direction == true) {
-        setTexture("../textures/fire1.png");
-    } else {
-        setTexture("../textures/fire0.png");
-    }
-}
-Projectile::~Projectile(){}
+    rect.setSize(sf::Vector2f(sizeX, sizeY));
+    rect.setPosition(positionX, positionY);
+};
+Projectile::~Projectile() = default;
 
 void Projectile::draw(sf::RenderWindow& window) {
     window.draw(getRect());
 }
+
+
+float Projectile::getPositionX() const { return *positionX; }
+float Projectile::getPositionY() const { return *positionY; }
+
+void Projectile::setPositionX(float x)
+{
+    (*positionX) = (*positionX) + x;
+}
+
+void Projectile::setPositionY(float y)
+{
+    (*positionY) = (*positionY) + y;
+}
+
+float Projectile::getSizeX() const { return sizeX; }
+float Projectile::getSizeY() const { return sizeY; }
+
+
+void Projectile::setTexture(const std::string& texturePath)
+{
+    texture.loadFromFile(texturePath);
+    if (!texture.loadFromFile(texturePath)) {
+        std::cerr << "Error loading texture from: " << texturePath << std::endl;
+    }
+    rect.setTexture(&texture);
+}
+
+sf::RectangleShape& Projectile::getRect(){ return rect; }

@@ -22,14 +22,12 @@ Animation::Animation(const sf::Texture& texture, int frameWidth, int frameHeight
 Animation::~Animation() = default;
 
 
-void Animation::setReference(Entity* x) {
+void Animation::setReference(std::shared_ptr<Entity>& x) {
     entity = x;
     positionX = x->getPositionXPtr();
     positionY = x->getPositionYPtr();
     if (positionX && positionY) {
         sprite.setPosition(*positionX, *positionY);
-        std::cout << "Pozycja sprite: (" << *positionX << ", " << *positionY << ")" << std::endl;
-
     }
 }
 
@@ -50,7 +48,7 @@ void Animation::stop() {
     playing = false;
 }
 
-Entity* Animation::getEntity() {
+std::shared_ptr<Entity> Animation::getEntity() {
     return entity;
 }
 

@@ -1,7 +1,7 @@
 #include "Player.h"
 #include <SFML/Graphics.hpp>
-#include <iostream>
-#include <chrono>
+
+#include "PlayerProjectileFactory.h"
 
 
 Player::Player(float sizeX, float sizeY, float positionX, float positionY)
@@ -20,42 +20,6 @@ void Player::MoveRight() {
     }
 }
 
-void Player::Shot() {
-    if (clock.getElapsedTime().asSeconds() >= 0.1f) {
-        projectiles.push_back(std::make_shared<Projectile>(10.0, 20.0, getPositionX() + getSizeX() / 2 - 5, getPositionY(), true));
-        clock.restart();
-        std::cout << "Current number of projectiles: " << projectiles.size() << std::endl;
-    }
-}
-
-void Player::updateProjectiles() {
-    for (auto it = projectiles.begin(); it != projectiles.end(); ) {
-        (*it)->getRect().move(0, -3);
-        (*it)->updatePosition(0, -3);
-
-        if ((*it)->getPositionY() < 0) {
-            it = projectiles.erase(it);
-            std::cout << "Projectile removed" << std::endl;
-        } else {
-            ++it;
-        }
-    }
-}
-
-void Player::update(float deltaTime) {
-    updateProjectiles();
-}
-
-void Player::draw(sf::RenderWindow& window) {
-    for (auto& projectile : projectiles) {
-        projectile->draw(window);
-    }
-}
-
-std::vector<std::shared_ptr<Projectile>>& Player::getProjectiles()
-{
-    return projectiles;
-}
 
 void Player::hit() {
     if (deathCooldown.getElapsedTime().asSeconds() >= deathCooldownTime) {
@@ -83,14 +47,22 @@ void Player::reset(float x, float y) {
     *getPositionYPtr() = y;
     getRect().setPosition(x, y);
 
-    projectiles.clear();
 }
 
 int Player::getLives() const {
     return lives;
 }
 
-
-
-Player::~Player() = default;
+std::shared_ptr<Projectile> Player::shoot()
+{
+    if (shootClock.getElapsedTime().asSeconds() < shootCooldown) {
+        return nullptr;
+    }
+    PlayerProjectileFactory factory;
+    std::shared_ptr<Projectile> newProjectile = factory.createProjectile(
+        getPositionX() + getSizeX() / 2 - 5, getPositionY()
+    );
+    shootClock.restart();
+    return newProjectile;
+}
 

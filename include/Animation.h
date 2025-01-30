@@ -18,18 +18,18 @@ private:
     bool playing;
     std::shared_ptr<float> positionX = nullptr;
     std::shared_ptr<float> positionY = nullptr;
-    Entity* entity;
+    std::shared_ptr<Entity> entity;
 
 public:
     Animation(const sf::Texture& texture, int frameWidth, int frameHeight, int frameCount, float frameDuration, bool loop = true);
     ~Animation();
-    void setReference(Entity* x);
+    void setReference(std::shared_ptr<Entity>& x);
     void setScale(float scaleX, float scaleY);
     void setLoop(bool shouldLoop);
     void play();
     void stop();
     void reset();
-    Entity* getEntity();
+    std::shared_ptr<Entity> getEntity();
 
     void update(float deltaTime);
     void draw(sf::RenderWindow& window);

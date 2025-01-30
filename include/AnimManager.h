@@ -22,14 +22,15 @@ public:
     const sf::Texture& getBoomTexture() const;
 
     void loadTextures(const sf::Texture& pTexture, const sf::Texture& texture1, const sf::Texture& texture2, const sf::Texture& texture3, const sf::Texture& bTexture);
-    void addPlayerAnimation(Player* player);
+    void addPlayerAnimation(const std::shared_ptr<Player>& player);
     void addAlienAnimations(Game* game);
-    void addAnimation(const std::shared_ptr<Animation>& animation, Entity* x, float scaleX, float scaleY);
+    void addAnimation(const std::shared_ptr<Animation>& animation, std::shared_ptr<Entity> x, float scaleX, float scaleY);
+    void checkRemove(std::shared_ptr<Entity>& removed);
+
     void clearAnimations();
     void updateAll(float deltaTime);
     void drawAll(sf::RenderWindow& window);
-    //void removeAnimation(const std::shared_ptr<Animation>& animation);
-    void checkRemove(Entity* removed);
+
 
     void collisionAnimation(float x, float y, float sizeX, float sizeY);
 };

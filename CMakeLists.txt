@@ -15,6 +15,34 @@ set(CMAKE_VERBOSE_MAKEFILE TRUE)
 #Source files here
 set(SOURCE_FILES
         include/Alien.h
+        include/AlienFactory.h
+        include/EntityFactory.h
+        include/PlayerFactory.h
+        include/ProjectileFactory.h
+        include/CollisionDetector.h
+        src/CollisionDetector.cpp
+        src/AlienFactory.cpp
+        include/AlienProjectile.h
+        include/PlayerProjectile.h
+        src/AlienProjectile.cpp
+        src/PlayerProjectile.cpp
+        include/PlayerProjectileFactory.h
+        include/AlienProjectileFactory.h
+        include/ProjectileFactory.h
+        src/PlayerProjectileFactory.cpp
+        src/ProjectileFactory.cpp
+        src/AlienProjectileFactory.cpp
+        src/EntityFactory.cpp
+        src/PlayerFactory.cpp
+        src/ProjectileFactory.cpp
+        include/Screen.h
+        include/Play.h
+        src/Play.cpp
+        include/Gamestate.h
+        src/Screen.cpp
+        src/Gamestate.cpp
+        include/Menu.h
+        src/Menu.cpp
         include/Bunker.h
         include/Entity.h
         include/Filemanager.h

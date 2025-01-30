@@ -11,7 +11,7 @@ void AnimManager::loadTextures(const sf::Texture& pTexture, const sf::Texture& t
     boomTexture = bTexture;
 }
 
-void AnimManager::addPlayerAnimation(Player* player) {
+void AnimManager::addPlayerAnimation(const std::shared_ptr<Player>& player) {
     addAnimation(
         std::make_shared<Animation>(playerTexture, 16, 16, 2, 0.5f, true),
         player,
@@ -38,7 +38,7 @@ void AnimManager::addAlienAnimations(Game* game) {
 
         addAnimation(
             std::make_shared<Animation>(*currentTexture, 11, 11, 2, 0.3f, true),
-            alien.get(),
+            alien,
             alien->getSizeX() / 11.0f,
             alien->getSizeY() / 11.0f
         );
@@ -48,13 +48,12 @@ void AnimManager::addAlienAnimations(Game* game) {
 }
 
 
-void AnimManager::addAnimation(const std::shared_ptr<Animation>& animation, Entity* x, float scaleX, float scaleY) {
+void AnimManager::addAnimation(const std::shared_ptr<Animation>& animation, std::shared_ptr<Entity> x, float scaleX, float scaleY) {
     animation->setReference(x);
     animation->setScale(scaleX, scaleY);
     animation->play();
     animations.push_back(animation);
     std::cout << "Obecna liczba animacji: " << animations.size() << std::endl;
-
 }
 
 void AnimManager::updateAll(float deltaTime) {
@@ -69,16 +68,10 @@ void AnimManager::drawAll(sf::RenderWindow& window) {
     }
 }
 
-// void AnimManager::removeAnimation(const std::shared_ptr<Animation>& animation) {
-//     animation->stop();
-// }
-
-void AnimManager::checkRemove(Entity* removed) {
+void AnimManager::checkRemove(std::shared_ptr<Entity> &removed) {
     for (auto& animation : animations) {
         if (animation->getEntity() == removed) {
-            //removeAnimation(animation);
             animation->stop();
-
         }
     }
 }

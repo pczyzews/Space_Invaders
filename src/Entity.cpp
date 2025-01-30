@@ -8,6 +8,7 @@ Entity::Entity(float sizeX, float sizeY, float posX, float posY)
 {
     rect.setSize(sf::Vector2f(sizeX, sizeY));
     rect.setPosition(posX, posY);
+    lives = 0;
 }
 
 float Entity::getPositionX() const { return *positionX; }
@@ -30,6 +31,7 @@ void Entity::updatePosition(float offsetX, float offsetY)
     *positionY += offsetY;
 
     rect.setPosition(*positionX, *positionY);
+    rect.move(offsetX, offsetY);
 }
 
 sf::RectangleShape& Entity::getRect(){ return rect; }
@@ -37,3 +39,5 @@ sf::RectangleShape& Entity::getRect(){ return rect; }
 
 
 Entity::~Entity() = default;
+
+
