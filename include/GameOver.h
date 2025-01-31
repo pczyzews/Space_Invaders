@@ -1,20 +1,20 @@
 #ifndef GAMEOVER_H
 #define GAMEOVER_H
 #include <SFML/Graphics.hpp>
-#include "Gamestate.h"
-class Screen;
+#include "GameState.h"
 #include <memory>
 
-class GameOver : public Gamestate {
+class Screen;
+
+class GameOver : public GameState {
 private:
     sf::Font font;
     sf::Text overText;
     sf::Text againText;
     Screen* screen;
-
 public:
     GameOver();
-    std::shared_ptr<Gamestate> run(sf::Event& event, sf::RenderWindow* window) override;
+    std::shared_ptr<GameState> run(sf::Event& event, sf::RenderWindow* window) override;
 };
 
 #endif // GAMEOVER_H

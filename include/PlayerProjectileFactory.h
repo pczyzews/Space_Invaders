@@ -1,6 +1,5 @@
 #ifndef PLAYERPROJECTILEFACTORY_H
 #define PLAYERPROJECTILEFACTORY_H
-
 #include <memory>
 #include "ProjectileFactory.h"
 

@@ -4,8 +4,7 @@
 
 class Entity;
 
-class EntityFactory
-{
+class EntityFactory {
 public:
     virtual std::shared_ptr<Entity> createEntity(float positionX, float positionY)=0;
     virtual ~EntityFactory() = default;

@@ -3,7 +3,7 @@
 #include <iostream>
 #include "AlienProjectileFactory.h"
 
-Alien::Alien(float sizeX, float sizeY, float positionX, float positionY)
+Alien::Alien(const float sizeX, const float sizeY, const float positionX, const float positionY)
     : Entity(sizeX, sizeY, positionX, positionY) {
 }
 
@@ -17,9 +17,3 @@ std::shared_ptr<Projectile> Alien::shoot()
         return nullptr;
     }
 }
-
-
-
-
-
-

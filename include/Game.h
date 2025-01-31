@@ -13,8 +13,7 @@ using ProjectileVector = std::vector<std::shared_ptr<Projectile>>;
 using AlienVector = std::vector<std::shared_ptr<Alien>>;
 using BunkerVector = std::vector<std::shared_ptr<Bunker>>;
 
-class Game
-{
+class Game {
     private:
         std::shared_ptr<Player> player;
         ProjectileVector alienProjectiles;
@@ -40,11 +39,6 @@ class Game
         ProjectileVector& getAlienProjectiles();
         AlienVector& getAlienArmy();
         BunkerVector& getWall();
-
-
-
 };
-
-
 
 #endif // GAME_H

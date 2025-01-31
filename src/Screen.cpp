@@ -7,15 +7,15 @@ Screen::Screen(sf::RenderWindow* window) : window(window) {
 
 void Screen::run(sf::Event& event) {
     while (!stateStack.empty() && window->isOpen()) {
-        std::shared_ptr<Gamestate> newState = stateStack.top()->run(event, window);
+        std::shared_ptr<GameState> newState = stateStack.top()->run(event, window);
         if (newState) {
             pushState(newState);
         }
     }
 }
 
-void Screen::pushState(std::shared_ptr<Gamestate> newstate) {
-    stateStack.push(newstate);
+void Screen::pushState(const std::shared_ptr<GameState>& newState) {
+    stateStack.push(newState);
 }
 
 void Screen::popState() {

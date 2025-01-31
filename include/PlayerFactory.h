@@ -3,10 +3,9 @@
 #include <memory>
 #include "EntityFactory.h"
 
-class PlayerFactory : public EntityFactory
-{
+class PlayerFactory : public EntityFactory {
 public:
     std::shared_ptr<Entity> createEntity(float positionX, float positionY) override;
 };
 
-#endif // _H
+#endif // PLAYERFACTORY_H

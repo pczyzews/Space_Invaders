@@ -21,7 +21,7 @@ Menu::Menu(Screen* screen) : screen(screen) {
     loadText.setPosition((800 - loadText.getLocalBounds().width) / 2.0f, 300.0f);
 }
 
-std::shared_ptr<Gamestate> Menu::run(sf::Event& event, sf::RenderWindow* window) {
+std::shared_ptr<GameState> Menu::run(sf::Event& event, sf::RenderWindow* window) {
     while (window->pollEvent(event)) {
         if (event.type == sf::Event::Closed)
             window->close();
@@ -31,7 +31,6 @@ std::shared_ptr<Gamestate> Menu::run(sf::Event& event, sf::RenderWindow* window)
                                   static_cast<float>(event.mouseButton.y));
 
             if (startText.getGlobalBounds().contains(mousePos)) {
-                std::cout << "START NEW GAME has been clicked" << std::endl;
                 return std::make_shared<Play>();
             }
         }

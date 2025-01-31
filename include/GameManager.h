@@ -1,6 +1,5 @@
 #ifndef GAMEMANAGER_H
 #define GAMEMANAGER_H
-
 #include <chrono>
 #include "Game.h"
 #include "SFML/Graphics.hpp"
@@ -19,7 +18,6 @@ private:
     bool check_army_movement_down = false;
     float army_move_per_second = 700;
     bool alienArmyLockedHorizontal = false;
-
     sf::Font font;
     sf::Text scoreText;
     sf::Text levelText;
@@ -28,19 +26,15 @@ private:
     std::chrono::time_point<std::chrono::steady_clock> lastMoveTime;
     Game* game;
     AnimManager* animationManager;
-
     CollisionDetector* collisionDetector;
-
     sf::RenderWindow& window;
-
     std::vector<std::shared_ptr<Animation>> animations;
-
 public:
     GameManager(sf::RenderWindow& window, Game* g, AnimManager* animManager);
     ~GameManager();
     void handleInput() const;
     void drawBunkers() const;
-    bool playerStatus();
+    bool playerStatus() const;
     void movingAlienArmy(Game &game);
     static void calculateMaxPositions(float& min, float& max, Game& game);
     void startNewLevel();

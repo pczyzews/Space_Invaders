@@ -1,26 +1,17 @@
 #include "Animation.h"
-#include <iostream>
 #include "Entity.h"
 
-
-Animation::Animation(const sf::Texture& texture, int frameWidth, int frameHeight, int frameCount, float frameDuration, bool loop)
+Animation::Animation(const sf::Texture& texture, const int frameWidth, const int frameHeight, const int frameCount, const float frameDuration, const bool loop)
     : currentFrame(0), frameDuration(frameDuration), loop(loop), playing(false) {
     sprite.setTexture(texture);
 
     for (int i = 0; i < frameCount; ++i) {
         frames.emplace_back(i * frameWidth, 0, frameWidth, frameHeight);
     }
-
     sprite.setTextureRect(frames[0]);
-
-    std::cout << "Wczytano klatki animacji:" << std::endl;
-    for (const auto& frame : frames) {
-        std::cout << "Frame: " << frame.left << ", " << frame.top << ", " << frame.width << ", " << frame.height << std::endl;
-    }
 }
 
 Animation::~Animation() = default;
-
 
 void Animation::setReference(std::shared_ptr<Entity>const& x) {
     entity = x;
@@ -31,12 +22,11 @@ void Animation::setReference(std::shared_ptr<Entity>const& x) {
     }
 }
 
-void Animation::setScale(float scaleX, float scaleY) {
+void Animation::setScale(const float scaleX, const float scaleY) {
     sprite.setScale(scaleX, scaleY);
-    std::cout << "Skala sprite: (" << scaleX << ", " << scaleY << ")" << std::endl;
 }
 
-void Animation::setLoop(bool shouldLoop) {
+void Animation::setLoop(const bool shouldLoop) {
     loop = shouldLoop;
 }
 
@@ -58,7 +48,7 @@ void Animation::reset() {
     elapsedTime = 0.0f;
 }
 
-void Animation::update(float deltaTime) {
+void Animation::update(const float deltaTime) {
     if (!playing) return;
 
 
@@ -86,7 +76,6 @@ void Animation::draw(sf::RenderWindow& window) const
     window.draw(sprite);
 }
 
-void Animation::setPosition(float x, float y) {
+void Animation::setPosition(const float x, const float y) {
     sprite.setPosition(x, y);
 }
-

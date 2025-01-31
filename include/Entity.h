@@ -5,8 +5,7 @@
 #include <memory>
 class Projectile;
 
-class Entity
-{
+class Entity {
 private:
     float sizeX;
     float sizeY;
@@ -15,7 +14,6 @@ private:
     sf::Texture texture;
     sf::RectangleShape rect;
     int lives;
-
 public:
     std::shared_ptr<float> getPositionXPtr() const { return positionX; }
     std::shared_ptr<float> getPositionYPtr() const { return positionY; }

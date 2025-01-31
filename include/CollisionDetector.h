@@ -8,7 +8,6 @@ class CollisionDetector {
 public:
     explicit CollisionDetector(AnimManager* animationManager);
     void checkForCollision(Game& game) const;
-
 private:
     AnimManager* animationManager;
 };

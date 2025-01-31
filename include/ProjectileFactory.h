@@ -4,7 +4,6 @@
 
 class Projectile;
 
-
 class ProjectileFactory {
 public:
     virtual std::shared_ptr<Projectile> createProjectile(float positionX, float positionY) = 0;

@@ -8,4 +8,4 @@ public:
     void updatePosition() override;
 };
 
-#endif //ALIEN_PROJECTILE_H
+#endif //ALIENPROJECTILE_H

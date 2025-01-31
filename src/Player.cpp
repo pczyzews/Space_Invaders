@@ -4,10 +4,9 @@
 #include "PlayerProjectileFactory.h"
 
 
-Player::Player(float sizeX, float sizeY, float positionX, float positionY)
+Player::Player(const float sizeX, const float sizeY, const float positionX, const float positionY)
     : Entity(sizeX, sizeY, positionX, positionY) {
 }
-
 
 void Player::MoveLeft() {
     if (getPositionX() > 0) {
@@ -20,7 +19,6 @@ void Player::MoveRight() {
     }
 }
 
-
 void Player::hit() {
     if (deathCooldown.getElapsedTime().asSeconds() >= deathCooldownTime) {
         lives --;
@@ -32,13 +30,11 @@ void Player::hit() {
     }
 }
 
-void Player::die()
-{
+void Player::die() {
     alive = false;
 }
 
-bool Player::isAlive() const
-{
+bool Player::isAlive() const {
     return alive;
 }
 
@@ -46,16 +42,13 @@ void Player::reset(float x, float y) {
     *getPositionXPtr() = x;
     *getPositionYPtr() = y;
     getRect().setPosition(x, y);
-
 }
 
 int Player::getLives() const {
     return lives;
 }
 
-
-std::shared_ptr<Projectile> Player::shoot()
-{
+std::shared_ptr<Projectile> Player::shoot() {
     if (shootClock.getElapsedTime().asSeconds() < shootCooldown) {
         return nullptr;
     }
@@ -71,4 +64,3 @@ std::shared_ptr<Projectile> Player::shoot()
         return nullptr;
     }
 }
-

@@ -11,8 +11,7 @@ CollisionDetector::CollisionDetector(AnimManager* animationManager)
     : animationManager(animationManager) {
 }
 
-void CollisionDetector::checkForCollision(Game& game) const
-{
+void CollisionDetector::checkForCollision(Game& game) const {
     try
     {
         for (auto alienIt = game.getAlienArmy().begin(); alienIt != game.getAlienArmy().end(); ) {
@@ -39,8 +38,6 @@ void CollisionDetector::checkForCollision(Game& game) const
                     alienRemoved = true;
 
                     game.increaseScore(10);
-                    std::cout << "SCORE: " << game.getScore() << std::endl;
-                    std::cout << "Aliens left: " << game.getAlienArmy().size() << std::endl;
 
                     if (game.getAlienArmy().empty()) {
                     }
@@ -117,8 +114,7 @@ void CollisionDetector::checkForCollision(Game& game) const
     }  catch (const std::exception& e) {
             std::cerr << "Exception caught in checkForCollision: " << e.what() << std::endl;
         }
-       try
-       {
+       try {
            for (auto projectileIt = game.getAlienProjectiles().begin(); projectileIt != game.getAlienProjectiles().end(); ) {
                bool projectileRemoved = false;
                for (auto wallIt = game.getWall().begin(); wallIt != game.getWall().end(); ) {

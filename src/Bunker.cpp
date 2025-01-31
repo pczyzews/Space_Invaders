@@ -1,14 +1,13 @@
 #include "Bunker.h"
 
-Bunker::Bunker(float sizeX, float sizeY, float positionX, float positionY, std::shared_ptr<sf::Texture> tex)
+Bunker::Bunker(const float sizeX, const float sizeY, const float positionX, const float positionY, std::shared_ptr<sf::Texture> tex)
     : sizeX(sizeX), sizeY(sizeY), positionX(positionX), positionY(positionY), texture(std::move(tex)) {
     sprite.setTexture(*texture);
     sprite.setPosition(positionX, positionY);
     updateTexture();
 }
 
-void Bunker::draw(sf::RenderWindow& window) const
-{
+void Bunker::draw(sf::RenderWindow& window) const {
     window.draw(sprite);
 }
 
@@ -24,9 +23,9 @@ bool Bunker::isDestroyed() const {
 }
 
 void Bunker::updateTexture() {
-    int textureY = (3 - hitCount) * 20;
+    const int textureY = (3 - hitCount) * 20;
     sprite.setTextureRect(sf::IntRect(textureY, 0, 10, 10));
-    float scaleX = sizeX / 10.0f;
-    float scaleY = sizeY / 10.0f;
+    const float scaleX = sizeX / 10.0f;
+    const float scaleY = sizeY / 10.0f;
     sprite.setScale(scaleX, scaleY);
 }

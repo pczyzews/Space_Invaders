@@ -3,11 +3,11 @@
 #include "Game.h"
 #include "AnimManager.h"
 #include "GameOver.h"
-#include "Gamemanager.h"
+#include "GameManager.h"
 
-Play::Play() {}
+Play::Play() =default;
 
-std::shared_ptr<Gamestate> Play::run(sf::Event& event, sf::RenderWindow* window)
+std::shared_ptr<GameState> Play::run(sf::Event& event, sf::RenderWindow* window)
 {
     Game game;
     AnimManager animationManager;
@@ -60,4 +60,5 @@ std::shared_ptr<Gamestate> Play::run(sf::Event& event, sf::RenderWindow* window)
 
         window->display();
     }
+    return nullptr;
 }

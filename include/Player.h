@@ -3,7 +3,6 @@
 #include "Entity.h"
 #include <SFML/System/Clock.hpp>
 
-
 using ProjectileVector = std::vector<std::shared_ptr<Projectile>>;
 
 class Player : public Entity {
@@ -14,7 +13,6 @@ private:
     const float shootCooldown = 0.5f;
     const float deathCooldownTime = 2.0f;
     int lives = 3;
-
 public:
     Player(float sizeX, float sizeY, float positionX, float positionY);
     void MoveLeft();

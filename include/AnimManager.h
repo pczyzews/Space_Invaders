@@ -9,15 +9,11 @@ class Player;
 class Game;
 class Entity;
 
-
-
 class AnimManager {
 private:
     std::vector<std::shared_ptr<Animation>> animations;
     sf::Texture playerTexture, alienTexture1, alienTexture2, alienTexture3, boomTexture;
-
 public:
-
     const sf::Texture& getPlayerTexture() const;
     const sf::Texture& getAlienTexture1() const;
     const sf::Texture& getAlienTexture2() const;
@@ -31,8 +27,6 @@ public:
     void clearAnimations();
     void updateAll(float deltaTime);
     void drawAll(sf::RenderWindow& window) const;
-
-
     void collisionAnimation(float x, float y, float sizeX, float sizeY);
 };
 

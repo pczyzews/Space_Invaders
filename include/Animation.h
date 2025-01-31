@@ -1,6 +1,5 @@
 #ifndef ANIMATION_H
 #define ANIMATION_H
-
 #include <SFML/Graphics.hpp>
 #include <vector>
 #include <memory>
@@ -19,7 +18,6 @@ private:
     std::shared_ptr<float> positionX = nullptr;
     std::shared_ptr<float> positionY = nullptr;
     std::shared_ptr<Entity> entity;
-
 public:
     Animation(const sf::Texture& texture, int frameWidth, int frameHeight, int frameCount, float frameDuration, bool loop = true);
     ~Animation();
@@ -30,10 +28,8 @@ public:
     void stop();
     void reset();
     std::shared_ptr<Entity> getEntity();
-
     void update(float deltaTime);
     void draw(sf::RenderWindow& window) const;
-
     void setPosition(float x, float y);
 };
 

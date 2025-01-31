@@ -1,20 +1,19 @@
 #ifndef SCREEN_H
 #define SCREEN_H
 #include <SFML/Graphics.hpp>
-#include "Gamestate.h"
+#include "GameState.h"
 #include <stack>
 #include <memory>
 
-using Stack = std::stack<std::shared_ptr<Gamestate>>;
+using Stack = std::stack<std::shared_ptr<GameState>>;
 
 class Screen {
 private:
     sf::RenderWindow* window;
     Stack stateStack;
-
 public:
-    Screen(sf::RenderWindow* window);
-    void pushState(std::shared_ptr<Gamestate> newstate);
+    explicit Screen(sf::RenderWindow* window);
+    void pushState(const std::shared_ptr<GameState>& newState);
     void popState();
     void run(sf::Event &event);
 };

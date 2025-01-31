@@ -1,4 +1,4 @@
-#include "Gamemanager.h"
+#include "GameManager.h"
 #include <iostream>
 #include "CollisionDetector.h"
 #include "Game.h"
@@ -10,8 +10,7 @@
 #include "Bunker.h"
 
 GameManager::GameManager(sf::RenderWindow& window, Game* g, AnimManager* animManager)
-    : window(window), game(g), animationManager(animManager)
-{
+    : window(window), game(g), animationManager(animManager) {
     isRunning = true;
     lastMoveTime = std::chrono::steady_clock::now();
 
@@ -73,14 +72,14 @@ void GameManager::calculateMaxPositions(float& min, float& max, Game& game) {
 
 void GameManager::movingAlienArmy(Game& game)
 {
-    auto currentTime = std::chrono::steady_clock::now();
-    auto msSinceLastMove = std::chrono::duration_cast<std::chrono::milliseconds>(currentTime - lastMoveTime).count();
+    const auto currentTime = std::chrono::steady_clock::now();
+    const auto msSinceLastMove = std::chrono::duration_cast<std::chrono::milliseconds>(currentTime - lastMoveTime).count();
     if (msSinceLastMove < army_move_per_second)
         return;
 
     float bottomMostY = 0.f;
-    for (auto& alien : game.getAlienArmy()) {
-        float alienBottom = alien->getPositionY() + 30;
+    for (const auto& alien : game.getAlienArmy()) {
+        const float alienBottom = alien->getPositionY() + 30;
         if (alienBottom > bottomMostY) {
             bottomMostY = alienBottom;
         }
@@ -88,11 +87,11 @@ void GameManager::movingAlienArmy(Game& game)
 
     calculateMaxPositions(min_alien_position, max_alien_position, game);
 
-    bool boundaryReached = (min_alien_position <= 10 || max_alien_position >= 790);
+    const bool boundaryReached = (min_alien_position <= 10 || max_alien_position >= 790);
 
     if (boundaryReached) {
         if (bottomMostY < 400) {
-            for (auto& alien : game.getAlienArmy()) {
+            for (const auto& alien : game.getAlienArmy()) {
                 alien->updatePosition(0, 10);
             }
             if (army_move_per_second >= 300) {
@@ -102,14 +101,14 @@ void GameManager::movingAlienArmy(Game& game)
         alien_step = -alien_step;
     }
 
-    for (auto& alien : game.getAlienArmy()) {
+    for (const auto& alien : game.getAlienArmy()) {
         alien->updatePosition(alien_step, 0);
 
         std::random_device rd;
         std::mt19937 gen(rd());
         std::uniform_real_distribution<> dis(0.0, 1.0);
-        double randomValue = dis(gen);
-        double shooting_probability = static_cast<float>(game.getLevel()) / 100;
+        const double randomValue = dis(gen);
+        const double shooting_probability = static_cast<float>(game.getLevel()) / 100;
         if (randomValue < shooting_probability) {
             game.getAlienProjectiles().push_back(alien->shoot());
         }
@@ -141,8 +140,7 @@ void GameManager::startNewLevel() {
     game->getPlayer()->reset(400.f - game->getPlayer()->getSizeX() / 2, 580.f);
 }
 
-void GameManager::removeProjectiles() const
-{
+void GameManager::removeProjectiles() const {
     auto& alienProjectiles = game->getAlienProjectiles();
     for (auto it = alienProjectiles.begin(); it != alienProjectiles.end(); ) {
         if ((*it)->getPositionY() > 700) {
@@ -177,8 +175,7 @@ void GameManager::drawLives() {
     }
 }
 
-void GameManager::drawProjectiles(sf::RenderWindow& window) const
-{
+void GameManager::drawProjectiles(sf::RenderWindow& window) const {
     for (auto& projectile : game->getPlayerProjectiles()) {
         projectile->draw(window);
     }
@@ -187,8 +184,7 @@ void GameManager::drawProjectiles(sf::RenderWindow& window) const
     }
 }
 
-void GameManager::updateProjectiles() const
-{
+void GameManager::updateProjectiles() const {
     for (auto& projectile : game->getPlayerProjectiles()) {
         projectile->updatePosition();
     }
@@ -197,8 +193,7 @@ void GameManager::updateProjectiles() const
     }
 }
 
-void GameManager::drawBunkers() const
-{
+void GameManager::drawBunkers() const {
     for (const auto& brick : game->getWall())
     {
         brick->draw(window);
@@ -210,6 +205,7 @@ void GameManager::render() {
     drawBunkers();
     drawLives();
 }
+
 void GameManager::updateCollisions() {
     collisionDetector->checkForCollision(*game);
     if (game->getAlienArmy().empty())
@@ -218,8 +214,6 @@ void GameManager::updateCollisions() {
     }
 }
 
-bool GameManager::playerStatus()
-{
+bool GameManager::playerStatus() const {
     return game->getPlayer()->isAlive();
 }
-

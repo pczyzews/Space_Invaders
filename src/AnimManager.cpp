@@ -5,8 +5,6 @@
 #include "Alien.h"
 #include <iostream>
 
-
-
 void AnimManager::loadTextures(const sf::Texture& pTexture, const sf::Texture& texture1, const sf::Texture& texture2, const sf::Texture& texture3, const sf::Texture& bTexture) {
     playerTexture = pTexture;
     alienTexture1 = texture1;
@@ -25,8 +23,8 @@ void AnimManager::addPlayerAnimation(const std::shared_ptr<Player>& player) {
 }
 
 void AnimManager::addAlienAnimations(Game* game) {
-    int alienCount = game->getAlienArmy().size();
-    int quarter = alienCount / 4;
+    unsigned const long alienCount = game->getAlienArmy().size();
+    unsigned const int quarter = alienCount / 4;
     int index = 0;
 
     for (const auto& alien : game->getAlienArmy()) {
@@ -51,35 +49,33 @@ void AnimManager::addAlienAnimations(Game* game) {
     }
 }
 
-
-void AnimManager::addAnimation(const std::shared_ptr<Animation>& animation, const std::shared_ptr<Entity>& x, float scaleX, float scaleY) {
+void AnimManager::addAnimation(const std::shared_ptr<Animation>& animation, const std::shared_ptr<Entity>& x, const float scaleX, const float scaleY) {
     animation->setReference(x);
     animation->setScale(scaleX, scaleY);
     animation->play();
     animations.push_back(animation);
-    std::cout << "Obecna liczba animacji: " << animations.size() << std::endl;
 }
 
-void AnimManager::updateAll(float deltaTime) {
-    for (auto& animation : animations) {
+void AnimManager::updateAll(const float deltaTime) {
+    for (const auto& animation : animations) {
         animation->update(deltaTime);
     }
 }
 
-void AnimManager::drawAll(sf::RenderWindow& window) const
-{
-    for (auto& animation : animations) {
+void AnimManager::drawAll(sf::RenderWindow& window) const {
+    for (const auto& animation : animations) {
         animation->draw(window);
     }
 }
 
 void AnimManager::checkRemove(std::shared_ptr<Entity> const &removed) {
-    for (auto& animation : animations) {
+    for (const auto& animation : animations) {
         if (animation->getEntity() == removed) {
             animation->stop();
         }
     }
 }
+
 void AnimManager::clearAnimations() {
     animations.clear();
 }
@@ -104,13 +100,13 @@ const sf::Texture& AnimManager::getBoomTexture() const {
     return boomTexture;
 }
 
-void AnimManager::collisionAnimation(float x, float y, float sizeX, float sizeY) {
+void AnimManager::collisionAnimation(const float x, const float y, const float sizeX, const float sizeY) {
     float frameWidth = 16;
     float frameHeight = 16;
     int frameCount = 15;
     float frameDuration = 0.05f;
     bool loop = false;
-    auto explosionAnimation = std::make_shared<Animation>(boomTexture, frameWidth, frameHeight, frameCount, frameDuration, loop);
+    const auto explosionAnimation = std::make_shared<Animation>(boomTexture, frameWidth, frameHeight, frameCount, frameDuration, loop);
 
     explosionAnimation->setPosition(x, y);
     explosionAnimation->setScale(sizeX/frameWidth, sizeY/frameHeight);

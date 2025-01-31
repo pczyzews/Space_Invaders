@@ -22,7 +22,7 @@ GameOver::GameOver() {
     againText.setPosition((800 - againText.getLocalBounds().width) / 2.0f, 450.0f);
 }
 
-std::shared_ptr<Gamestate> GameOver::run(sf::Event& event, sf::RenderWindow* window) {
+std::shared_ptr<GameState> GameOver::run(sf::Event& event, sf::RenderWindow* window) {
     while (window->pollEvent(event)) {
         if (event.type == sf::Event::Closed)
             window->close();
@@ -33,7 +33,6 @@ std::shared_ptr<Gamestate> GameOver::run(sf::Event& event, sf::RenderWindow* win
 
             if (againText.getGlobalBounds().contains(mousePos)) {
                 againText.setFillColor(sf::Color::Red);
-                std::cout << "CLICK TO PLAY AGAIN has been clicked" << std::endl;
 
                 return std::make_shared<Play>();
             }

@@ -3,8 +3,7 @@
 #include <memory>
 #include <SFML/Graphics.hpp>
 
-class Projectile
-{
+class Projectile {
 private:
     float sizeX = 10;
     float sizeY = 20;
