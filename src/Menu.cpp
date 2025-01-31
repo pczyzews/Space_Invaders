@@ -9,16 +9,16 @@ Menu::Menu(Screen* screen) : screen(screen) {
     }
 
     startText.setFont(font);
-    startText.setString("START NEW GAME");
-    startText.setCharacterSize(40);
+    startText.setString("SPACE INVADERS");
+    startText.setCharacterSize(60);
     startText.setFillColor(sf::Color::White);
     startText.setPosition((800 - startText.getLocalBounds().width) / 2.0f, 200.0f);
 
     loadText.setFont(font);
-    loadText.setString("LOAD GAME");
+    loadText.setString("CLICK TO START NEW GAME");
     loadText.setCharacterSize(40);
     loadText.setFillColor(sf::Color::White);
-    loadText.setPosition((800 - loadText.getLocalBounds().width) / 2.0f, 300.0f);
+    loadText.setPosition((800 - loadText.getLocalBounds().width) / 2.0f, 400.0f);
 }
 
 std::shared_ptr<GameState> Menu::run(sf::Event& event, sf::RenderWindow* window) {
@@ -30,7 +30,7 @@ std::shared_ptr<GameState> Menu::run(sf::Event& event, sf::RenderWindow* window)
             sf::Vector2f mousePos(static_cast<float>(event.mouseButton.x),
                                   static_cast<float>(event.mouseButton.y));
 
-            if (startText.getGlobalBounds().contains(mousePos)) {
+            if (loadText.getGlobalBounds().contains(mousePos)) {
                 return std::make_shared<Play>();
             }
         }
