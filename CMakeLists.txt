@@ -1,7 +1,6 @@
 cmake_minimum_required(VERSION 3.4)
 
-#Configuration parameters of cmake
-set(CMAKE_CXX_COMPILER g++)#requires g++ to be available on PATH
+set(CMAKE_CXX_COMPILER g++)
 set(CMAKE_C_COMPILER gcc)
 set(CMAKE_CXX_STANDARD 11)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
@@ -12,7 +11,6 @@ enable_language(CXX)
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON) 
 set(CMAKE_VERBOSE_MAKEFILE TRUE) 
 
-#Source files here
 set(SOURCE_FILES
         src/main.cpp
         include/Alien.h
@@ -73,7 +71,6 @@ find_package(SFML 2.4 COMPONENTS graphics window system REQUIRED)
 target_link_libraries(Project sfml-graphics sfml-window sfml-system)
 
 #TESTs
-# Find Boost (Unit Test Framework)
 find_package (Boost 1.60.0 COMPONENTS unit_test_framework REQUIRED)
 
 # Test source files
@@ -112,14 +109,11 @@ set(SOURCE_TEST_FILES
 
 )
 
-# Create TestProject Executable
 add_executable(TestProject ${SOURCE_TEST_FILES})
 
-# Include necessary directories
 target_include_directories(TestProject PUBLIC include ${Boost_INCLUDE_DIRS})
 
-# Link necessary libraries
 target_link_libraries(TestProject
-        Boost::unit_test_framework  # Correct Boost linkage
-        sfml-graphics sfml-window sfml-system  # Fix missing SFML linkage
+        Boost::unit_test_framework
+        sfml-graphics sfml-window sfml-system
 )
