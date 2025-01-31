@@ -5,10 +5,12 @@
 #include <stack>
 #include <memory>
 
+using Stack = std::stack<std::shared_ptr<Gamestate>>;
+
 class Screen {
 private:
     sf::RenderWindow* window;
-    std::stack<std::shared_ptr<Gamestate>> stateStack;
+    Stack stateStack;
 
 public:
     Screen(sf::RenderWindow* window);
