@@ -11,7 +11,7 @@ private:
     bool alive = true;
     double weaponCooldown = 0.0;
     sf::Clock clock, deathCooldown, shootClock;
-    const float shootCooldown = 0.1f;
+    const float shootCooldown = 0.5f;
     const float deathCooldownTime = 2.0f;
     int lives = 3;
 

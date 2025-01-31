@@ -14,6 +14,7 @@ set(CMAKE_VERBOSE_MAKEFILE TRUE)
 
 #Source files here
 set(SOURCE_FILES
+        src/main.cpp
         include/Alien.h
         include/AlienFactory.h
         include/EntityFactory.h
@@ -56,7 +57,6 @@ set(SOURCE_FILES
         src/Gamemanager.cpp
         src/Player.cpp
         src/Projectile.cpp
-        src/main.cpp
         src/animation.cpp
         include/animation.h
         src/AnimManager.cpp
@@ -73,31 +73,53 @@ find_package(SFML 2.4 COMPONENTS graphics window system REQUIRED)
 target_link_libraries(Project sfml-graphics sfml-window sfml-system)
 
 #TESTs
-find_package (Boost 1.60.0 COMPONENTS "unit_test_framework" REQUIRED)
+# Find Boost (Unit Test Framework)
+find_package (Boost 1.60.0 COMPONENTS unit_test_framework REQUIRED)
 
-include_directories(
-        ${CMAKE_CURRENT_SOURCE_DIR}/include
-        ${Boost_INCLUDE_DIRS}
+# Test source files
+set(SOURCE_TEST_FILES
+        test/master.cpp
+        test/TestEntity.cpp
+        test/TestAnimation.cpp
+        test/TestGame.cpp
+        src/CollisionDetector.cpp
+        src/AlienFactory.cpp
+        src/AlienProjectile.cpp
+        src/PlayerProjectile.cpp
+        src/PlayerProjectileFactory.cpp
+        src/ProjectileFactory.cpp
+        src/AlienProjectileFactory.cpp
+        src/EntityFactory.cpp
+        src/PlayerFactory.cpp
+        src/ProjectileFactory.cpp
+        src/Play.cpp
+        src/Screen.cpp
+        src/Gamestate.cpp
+        src/Menu.cpp
+        src/Alien.cpp
+        src/Bunker.cpp
+        src/Entity.cpp
+        src/Game.cpp
+        src/Gamemanager.cpp
+        src/Player.cpp
+        src/Projectile.cpp
+        src/animation.cpp
+        src/AnimManager.cpp
+        src/GameOver.cpp
+        test/TestGamemanager.cpp
+        test/TestCollisionDetector.cpp
+        test/TestScreen.cpp
+
 )
 
-#Test source files here
-set(SOURCE_TEST_FILES
-        test/master.cpp)
-
+# Create TestProject Executable
 add_executable(TestProject ${SOURCE_TEST_FILES})
 
-target_include_directories(TestProject PUBLIC include)
+# Include necessary directories
+target_include_directories(TestProject PUBLIC include ${Boost_INCLUDE_DIRS})
 
-target_link_libraries (TestProject
-        ${Boost_UNIT_TEST_FRAMEWORK_LIBRARY})
-
-enable_testing()
-
-add_test(NAME Test COMMAND TestProject
-        --report_level=detailed
-        --log_level=all
-        --color_output=yes)
-
-add_custom_target(check ${CMAKE_COMMAND} -E env CTEST_OUTPUT_ON_FAILURE=1 BOOST_TEST_LOG_LEVEL=all
-        ${CMAKE_CTEST_COMMAND} -C $<CONFIG> --verbose
-        WORKING_DIRECTORY ${CMAKE_BINARY_DIR})
+# Link necessary libraries
+target_link_libraries(TestProject
+        Boost::unit_test_framework  # Correct Boost linkage
+        sfml-graphics sfml-window sfml-system  # Fix missing SFML linkage
+)

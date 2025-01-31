@@ -49,5 +49,5 @@ std::shared_ptr<Gamestate> GameOver::run(sf::Event& event, sf::RenderWindow* win
         window->display();
     }
 
-    return nullptr;  // No state change
+    return nullptr;
 }
